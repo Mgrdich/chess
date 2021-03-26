@@ -12,3 +12,7 @@ print('-----')
 
 board.push_san("Nh6")
 print(board)
+board.pop()
+print('-----')
+print(board)
+
