@@ -2,3 +2,16 @@ Things to research
 
 * FEN Strings
 * PGN Formats for Learning
+
+* TODO put  and bunch of ajax requests maybe vanilla js or if it is a lot do it anguals.js??
+
+
+* Create the logic and the http request how to fetch the system
+* replace svg with normal html and the images and stuff
+* First do it without the images then apply the images
+
+
+
+check out libs for this task
+https://github.com/geohot/twitchchess/tree/master/static
+https://github.com/oakmac/chessboardjs

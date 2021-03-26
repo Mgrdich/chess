@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 import chess
 import chess.svg
+# TODO replace the svg with normal html things
+
 
 board = chess.Board()
 
