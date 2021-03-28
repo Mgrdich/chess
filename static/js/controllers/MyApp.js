@@ -1,30 +1,29 @@
-let app = angular.module('myApp');
+let myApp = angular.module('myApp', []);
 
-app.config(['$rootScope', function ($rootScope) {
-}]);
-
-app.run(function () {
-});
-
-
-app.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
+myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
 
 }]);
 
 
-app.directive('chessBoard',['$parse', function ($parse) {
+myApp.directive('chessBoard', ['$parse', function ($parse) {
     return {
-        restrict:'A',
-        scope:{
-
+        restrict: 'E',
+        scope: {
+            id: '@'
         },
-        template:'<div></div>',
-        link:function (scope, element, attrs) {
+        replace:true,
+        template: '<div id="{{id}}" style="width: 400px"></div>',
+        link: function (scope, element, attrs) {
             // TODO bind events that are found in attribute
 
-            scope.$on('$destroy',function (){
-               // TODO unbind events
+            var board = ChessBoard(scope.id, {
+                draggable: true,
+                pieceTheme:'/static/img/chesspieces/{piece}.png'
+            });
+
+            scope.$on('$destroy', function () {
+                // TODO unbind events
             });
         }
     }
-}])
+}]);

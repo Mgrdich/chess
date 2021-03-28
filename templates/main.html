@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 {% include 'head.html' %}
 <body ng-controller="ChessCtrl">
-<div style="width: 900px; height: 900px">
-    {{svg | safe}}
-</div>
+    <chess-board
+        id="play"
+    ></chess-board>
 </body>
 {% include 'scripts.html' %}
 </html>
