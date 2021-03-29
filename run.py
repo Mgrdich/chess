@@ -1,9 +1,9 @@
+from dotenv import load_dotenv
 from flask import Flask, render_template
 import chess
-import chess.svg
+import os
 
-# TODO replace the svg with normal html things
-
+load_dotenv()  # take environment variables from .env.
 
 board = chess.Board()
 
@@ -13,10 +13,9 @@ app = Flask(__name__)
 # Routes
 @app.route("/")
 def index():
-    svg = chess.svg.board(board=board)
-    return render_template('main.html', svg=svg)
+    return render_template('main.html')
 
 
 # Web server config
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8080, debug=True)
+    app.run(host=os.environ.get('HOST'), port=os.environ.get('HOST'), debug=True)
