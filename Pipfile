@@ -9,6 +9,7 @@ numpy = "*"
 flask = "*"
 jinja2 = "*"
 python-dotenv = "*"
+flask-restplus = "*"
 
 [dev-packages]
 
