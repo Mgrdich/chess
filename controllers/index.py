@@ -2,7 +2,7 @@ from flask import render_template
 from flask.views import View
 
 
-class HelloWorld(View):
+class IndexView(View):
     methods = ['GET']
 
     def dispatch_request(self):
