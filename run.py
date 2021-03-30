@@ -22,7 +22,6 @@ app.add_url_rule('/game', view_func=GameView.as_view('game'))
 
 @app.errorhandler(404)
 def page_not_found(error):
-    print(error)
     return render_template('error.html', error=error), 404
 
 
