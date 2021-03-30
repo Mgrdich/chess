@@ -16,3 +16,5 @@ board.pop()
 print('-----')
 print(board)
 
+board.generate_legal_moves()
+
