@@ -11,18 +11,18 @@ class ChessBoard:
     def __init__(self, fen: ''):
         self.board = chess.Board(fen)
 
-    def isLegalMove(self, move):
+    def isLegalMove(self, move) -> bool:
         return move in self.board.legal_moves
 
-    def isCheck(self):
+    def isCheck(self) -> bool:
         return self.board.is_check()
 
-    def isCheckMate(self):
+    def isCheckMate(self) -> bool:
         return self.board.is_checkmate()
 
-    def isStaleMate(self):
+    def isStaleMate(self) -> bool:
         return self.board.is_stalemate()
 
-    def possibleMoves(self, alg_notation):
+    def possibleMoves(self, alg_notation: str):
         arr = list(self.board.generate_legal_moves(from_mask=chess.parse_square(alg_notation)))
-        print(arr)
+        return arr
