@@ -1,6 +1,8 @@
 import chess
 from typing import List
 
+# TODO Create Algebraic notation hash for validation in this class or seperate them
+
 
 class ChessCore:
     def __init__(self, fen=''):
