@@ -1,13 +1,8 @@
 import chess
+from typing import List
 
 
-# TODO Get Board
-# TODO Get Possible Moves
-# TODO check getters and setters
-
-# all of it particular to the board in the current object
-
-class ChessBoard:
+class ChessCore:
     def __init__(self, fen=''):
         if fen:
             self.board = chess.Board(fen)
@@ -32,8 +27,12 @@ class ChessBoard:
     def printBoard(self):
         print(self.board)
 
-    def possibleMoves(self, alg_notation: str) -> list:
-        return list(self.board.generate_legal_moves(from_mask=ChessBoard.getBitSquare(alg_notation)))
+    def getPossibleMoves(self, alg_notation: str) -> List[chess.Move]:
+        return list(self.board.generate_legal_moves(from_mask=ChessCore.getBitSquare(alg_notation)))
+
+    def getPossibleMovesAlg(self, alg_notation: str) -> List[str]:
+        moves = self.getPossibleMoves(alg_notation)
+        return list(map(lambda move: chess.square_name(move.to_square), moves))
 
     @staticmethod
     def getBitSquare(alg_notation):
