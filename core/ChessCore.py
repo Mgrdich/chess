@@ -31,18 +31,23 @@ class ChessCore(ChessUtil):
         print(self.board)
 
     # TODO turn this validation to a decorator
-    def getPossibleMoves(self, alg_notation: str) -> np.ndarray[chess.Move]:
+    def getPossibleMoves(self, alg_notation: str) -> np.ndarray:
         if not ChessUtil.isAlgebraicNotation(alg_notation):
             raise Exception('Not valid Algebraic notation')
 
-        return np.array(self.board.generate_legal_moves(from_mask=ChessCore.getBitSquare(alg_notation)))
+        # TODO fix me with np.fromiter
+        return np.array(
+            list(self.board.generate_legal_moves(from_mask=ChessCore.getBitSquare(alg_notation)))
+        )
 
-    def getPossibleMovesAlg(self, alg_notation: str) -> np.ndarray[str]:
+    def getPossibleMovesAlg(self, alg_notation: str) -> np.ndarray:
         if not ChessUtil.isAlgebraicNotation(alg_notation):
             raise Exception('Not valid Algebraic notation')
 
         moves = self.getPossibleMoves(alg_notation)
-        return np.array(map(lambda move: chess.square_name(move.to_square), moves))
+
+        # TODO fix me with np.fromiter or something to fix this generator issue
+        return np.array(list(map(lambda move: chess.square_name(move.to_square), moves)))
 
     @staticmethod
     def getBitSquare(alg_notation):
@@ -50,3 +55,7 @@ class ChessCore(ChessUtil):
             raise Exception('Not valid Algebraic notation')
 
         return chess.BB_SQUARES[chess.parse_square(alg_notation)]
+
+
+c = ChessCore()
+print(c.getPossibleMovesAlg('a2'))
