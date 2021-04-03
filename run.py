@@ -11,6 +11,7 @@ werkzeug.cached_property = werkzeug.utils.cached_property
 
 load_dotenv()  # take environment variables from .env.
 
+# TODO replace with ChessCore Version
 board = chess.Board()
 
 app = Flask(__name__)
