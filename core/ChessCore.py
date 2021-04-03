@@ -1,15 +1,16 @@
 import chess
 import numpy as np
+from core.ChessUtil import ChessUtil
 
-# TODO Create Algebraic notation hash for validation in this class or seperate them
 
-
-class ChessCore:
+class ChessCore(ChessUtil):
     def __init__(self, fen=''):
         if fen:
             self.board = chess.Board(fen)
         else:
             self.board = chess.Board()
+
+        super().__init__()
 
     def isLegalMove(self, move) -> bool:
         return move in self.getLegalMoves()
@@ -29,13 +30,23 @@ class ChessCore:
     def printBoard(self):
         print(self.board)
 
+    # TODO turn this validation to a decorator
     def getPossibleMoves(self, alg_notation: str) -> np.ndarray[chess.Move]:
+        if not ChessUtil.isAlgebraicNotation(alg_notation):
+            raise Exception('Not valid Algebraic notation')
+
         return np.array(self.board.generate_legal_moves(from_mask=ChessCore.getBitSquare(alg_notation)))
 
     def getPossibleMovesAlg(self, alg_notation: str) -> np.ndarray[str]:
+        if not ChessUtil.isAlgebraicNotation(alg_notation):
+            raise Exception('Not valid Algebraic notation')
+
         moves = self.getPossibleMoves(alg_notation)
         return np.array(map(lambda move: chess.square_name(move.to_square), moves))
 
     @staticmethod
     def getBitSquare(alg_notation):
+        if not ChessUtil.isAlgebraicNotation(alg_notation):
+            raise Exception('Not valid Algebraic notation')
+
         return chess.BB_SQUARES[chess.parse_square(alg_notation)]
