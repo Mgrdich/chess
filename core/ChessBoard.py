@@ -1,5 +1,5 @@
 import chess
-from typing import List
+import numpy as np
 
 # TODO Create Algebraic notation hash for validation in this class or seperate them
 
@@ -29,12 +29,12 @@ class ChessCore:
     def printBoard(self):
         print(self.board)
 
-    def getPossibleMoves(self, alg_notation: str) -> List[chess.Move]:
-        return list(self.board.generate_legal_moves(from_mask=ChessCore.getBitSquare(alg_notation)))
+    def getPossibleMoves(self, alg_notation: str) -> np.ndarray[chess.Move]:
+        return np.array(self.board.generate_legal_moves(from_mask=ChessCore.getBitSquare(alg_notation)))
 
-    def getPossibleMovesAlg(self, alg_notation: str) -> List[str]:
+    def getPossibleMovesAlg(self, alg_notation: str) -> np.ndarray[str]:
         moves = self.getPossibleMoves(alg_notation)
-        return list(map(lambda move: chess.square_name(move.to_square), moves))
+        return np.array(map(lambda move: chess.square_name(move.to_square), moves))
 
     @staticmethod
     def getBitSquare(alg_notation):
