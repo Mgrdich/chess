@@ -5,7 +5,7 @@ from flask import make_response, jsonify
 """
 
 
-class Util:
+class Lib:
     def __init__(self):
         pass
 

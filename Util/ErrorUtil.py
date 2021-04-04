@@ -1,4 +1,4 @@
-from Util.Util import Util
+from Util.Lib import Lib
 from core.ChessUtil import ChessUtil
 
 """
@@ -55,5 +55,5 @@ class ErrorUtil:
     def isInvalid(res: object) -> object:
         return {
             'valid': False,
-            'response': Util.resJson(res)
+            'response': Lib.resJson(res)
         }

@@ -4,15 +4,11 @@ import werkzeug
 from controllers.Game import GameView
 from controllers.MovesApi import MovesApi
 from controllers.index import IndexView
-import chess
 import os
 
 werkzeug.cached_property = werkzeug.utils.cached_property
 
 load_dotenv()  # take environment variables from .env.
-
-# TODO replace with ChessCore Version
-board = chess.Board()
 
 app = Flask(__name__)
 

@@ -1,5 +1,6 @@
 from flask import make_response, jsonify
 from flask.views import MethodView
+from Util.Lib import Lib
 from Util.ErrorUtil import ErrorUtil
 
 
@@ -15,8 +16,12 @@ class MovesApi(MethodView):
         if not alg_validation['valid']:
             return alg_validation['response']
 
-        # TODO make your request here
-        return make_response(jsonify({'ks': 'emak'}), 200)
+        res = {
+            'status': 1,
+            # 'result': app_chess_Core.getPossibleMovesAlg(alg_move)
+        }
+
+        return Lib.resJson(res)
 
     @staticmethod
     def put(alg_move):
