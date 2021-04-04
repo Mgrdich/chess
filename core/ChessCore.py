@@ -35,7 +35,6 @@ class ChessCore(ChessUtil):
         if not ChessUtil.isAlgebraicNotation(alg_notation):
             raise Exception('Not valid Algebraic notation')
 
-        # TODO fix me with np.fromiter
         return np.array(
             list(self.board.generate_legal_moves(from_mask=ChessCore.getBitSquare(alg_notation)))
         )
@@ -47,6 +46,8 @@ class ChessCore(ChessUtil):
         moves = self.getPossibleMoves(alg_notation)
 
         # TODO fix me with np.fromiter or something to fix this generator issue
+        # i think the issue is something with
+        # ValueError: Must specify length when using variable-size data-type.
         return np.array(list(map(lambda move: chess.square_name(move.to_square), moves)))
 
     @staticmethod
