@@ -56,7 +56,3 @@ class ChessCore(ChessUtil):
             raise Exception('Not valid Algebraic notation')
 
         return chess.BB_SQUARES[chess.parse_square(alg_notation)]
-
-
-c = ChessCore()
-print(c.getPossibleMovesAlg('a2'))
