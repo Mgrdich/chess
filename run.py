@@ -8,6 +8,10 @@ import os
 
 from core.ChessCore import ChessCore
 
+# TODO add session and store it in board or data related to that page
+# TODO maybe integrate it into the move and core API get Setter and Getter
+
+
 werkzeug.cached_property = werkzeug.utils.cached_property
 
 load_dotenv()  # take environment variables from .env.
