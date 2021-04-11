@@ -8,15 +8,8 @@ class GameView(View):
     methods = ['GET']
 
     def dispatch_request(self):
-        core = ChessCore()
-        if 'board' in session:
-            print('get')
-            core = ChessCore.getMyBoardSession()  # session instance
-        else:
-            print('set')
-            core.board.push_san("e4")
-            core.setMyBoardSession()
-
-        core.printBoard()
+        if 'board' not in session:
+            core = ChessCore()
+            core.setBoardToSession()
 
         return render_template('main.html')

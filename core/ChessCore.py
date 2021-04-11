@@ -33,11 +33,16 @@ class ChessCore(ChessUtil):
     def isStaleMate(self) -> bool:
         return self.board.is_stalemate()
 
-    def setMyBoardSession(self):
+    def setBoardToSession(self):
         session['board'] = self.board.fen()
 
     def printBoard(self):
         print(self.board)
+
+    def move_piece(self, move_notation: str):
+        self.board.push_san(move_notation)
+        self.setBoardToSession()
+        # tODO continue here
 
     # TODO turn this validation to a decorator
     def getPossibleMoves(self, alg_notation: str) -> np.ndarray:
@@ -66,9 +71,9 @@ class ChessCore(ChessUtil):
 
         return chess.BB_SQUARES[chess.parse_square(alg_notation)]
 
-    # TODO refactor set and get into a different class with inheritance and stuff
+    # TODO check whether is okay to be here or in an individual function
     @staticmethod
-    def getMyBoardSession():
+    def getBoard():
         if 'board' in session:
             return ChessCore(session['board'])
 
