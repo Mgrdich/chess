@@ -34,7 +34,7 @@ class ChessCore(ChessUtil):
         return self.board.is_stalemate()
 
     def setMyBoardSession(self):
-        Serialize.serialize_json_session(instance=self, key='board')
+        session['board'] = self.board.fen()
 
     def printBoard(self):
         print(self.board)
@@ -66,9 +66,10 @@ class ChessCore(ChessUtil):
 
         return chess.BB_SQUARES[chess.parse_square(alg_notation)]
 
+    # TODO refactor set and get into a different class with inheritance and stuff
     @staticmethod
     def getMyBoardSession():
         if 'board' in session:
-            return Serialize.deserialize_json_session(cls=ChessCore, key='board')
+            return ChessCore(session['board'])
 
-        return None
+        return ChessCore()

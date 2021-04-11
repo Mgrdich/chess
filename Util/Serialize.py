@@ -9,10 +9,7 @@ class Serialize:
 
     @staticmethod
     def serialize_json_session(instance, key: str):
-        dt = {}
-        dt.update(vars(instance))
-
-        session[key] = json.dumps(dt, indent=4)
+        session[key] = json.dumps(instance, default=lambda o: o.__dict__, indent=4)
 
     @staticmethod
     def deserialize_json_session(cls, key: str):
