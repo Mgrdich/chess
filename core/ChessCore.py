@@ -33,11 +33,15 @@ class ChessCore(ChessUtil):
     def isStaleMate(self) -> bool:
         return self.board.is_stalemate()
 
+    def getMyBoardSession(self):
+        if 'board' in session:
+            self.__dict__ = json.loads(session['board'])
+
     def setMyBoardSession(self):
-        session['board'] = json.dumps(self.toJson(), indent=4)
+        session['board'] = self.toJson()
 
     def toJson(self):
-        return json.dumps(self, default=lambda o: o.__dict__)
+        return json.dumps(self, default=lambda o: o.__dict__,indent=4)
 
     def printBoard(self):
         print(self.board)
@@ -68,7 +72,3 @@ class ChessCore(ChessUtil):
             raise Exception('Not valid Algebraic notation')
 
         return chess.BB_SQUARES[chess.parse_square(alg_notation)]
-
-    @staticmethod
-    def getMyBoardSession():
-        return json.loads(session['board'])
