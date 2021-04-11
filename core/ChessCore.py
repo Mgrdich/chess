@@ -1,5 +1,7 @@
 import chess
 import numpy as np
+from flask import session
+
 from core.ChessUtil import ChessUtil
 
 
@@ -56,3 +58,11 @@ class ChessCore(ChessUtil):
             raise Exception('Not valid Algebraic notation')
 
         return chess.BB_SQUARES[chess.parse_square(alg_notation)]
+
+    @staticmethod
+    def getMyBoardSession():
+        return session['board']
+
+    @staticmethod
+    def setMyBoardSession(fen: str):
+        session['board'] = fen
