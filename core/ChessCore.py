@@ -1,9 +1,13 @@
-import chess
 import numpy as np
 from flask import session
+import chess
+import json
 
 from core.ChessUtil import ChessUtil
 
+
+# TODO maybe there should be a start function to init the the chess thingy while the class
+# Just creates the context
 
 class ChessCore(ChessUtil):
     def __init__(self, fen=''):
@@ -17,7 +21,7 @@ class ChessCore(ChessUtil):
     def isLegalMove(self, move) -> bool:
         return move in self.getLegalMoves()
 
-    def getLegalMoves(self):
+    def getLegalMoves(self) -> chess.LegalMoveGenerator:
         return self.board.legal_moves
 
     def isCheck(self) -> bool:
@@ -28,6 +32,12 @@ class ChessCore(ChessUtil):
 
     def isStaleMate(self) -> bool:
         return self.board.is_stalemate()
+
+    def setMyBoardSession(self):
+        session['board'] = json.dumps(self.toJson(), indent=4)
+
+    def toJson(self):
+        return json.dumps(self, default=lambda o: o.__dict__)
 
     def printBoard(self):
         print(self.board)
@@ -61,8 +71,4 @@ class ChessCore(ChessUtil):
 
     @staticmethod
     def getMyBoardSession():
-        return session['board']
-
-    @staticmethod
-    def setMyBoardSession(fen: str):
-        session['board'] = fen
+        return json.loads(session['board'])
