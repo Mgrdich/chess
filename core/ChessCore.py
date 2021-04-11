@@ -1,7 +1,7 @@
 import numpy as np
 from flask import session
 import chess
-import json
+from Util.Serialize import Serialize
 
 from core.ChessUtil import ChessUtil
 
@@ -33,15 +33,8 @@ class ChessCore(ChessUtil):
     def isStaleMate(self) -> bool:
         return self.board.is_stalemate()
 
-    def getMyBoardSession(self):
-        if 'board' in session:
-            self.__dict__ = json.loads(session['board'])
-
     def setMyBoardSession(self):
-        session['board'] = self.toJson()
-
-    def toJson(self):
-        return json.dumps(self, default=lambda o: o.__dict__,indent=4)
+        Serialize.serialize_json_session(instance=self, key='board')
 
     def printBoard(self):
         print(self.board)
@@ -72,3 +65,10 @@ class ChessCore(ChessUtil):
             raise Exception('Not valid Algebraic notation')
 
         return chess.BB_SQUARES[chess.parse_square(alg_notation)]
+
+    @staticmethod
+    def getMyBoardSession():
+        if 'board' in session:
+            return Serialize.deserialize_json_session(cls=ChessCore, key='board')
+
+        return None

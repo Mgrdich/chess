@@ -11,7 +11,7 @@ class GameView(View):
         core = ChessCore()
         if 'board' in session:
             print('get')
-            core.getMyBoardSession()
+            core = ChessCore.getMyBoardSession()  # session instance
         else:
             print('set')
             core.board.push_san("e4")

@@ -12,15 +12,15 @@ class Serialize:
         dt = {}
         dt.update(vars(instance))
 
-        session[key] = dt
+        session[key] = json.dumps(dt, indent=4)
 
     @staticmethod
-    def deserialize_json__session(cls, key: str):
+    def deserialize_json_session(cls, key: str):
         data = json.loads(session[key])
 
-        instance = object.__new__(cls)
+        this = object.__new__(cls)  # new class
 
-        for key, value in data.items():
-            setattr(instance, key, value)
+        for k, value in data.items():
+            setattr(this, k, value)
 
-        return instance
+        return this
