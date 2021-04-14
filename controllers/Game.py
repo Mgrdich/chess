@@ -15,12 +15,14 @@ class GameView(View):
 
         piece_hashes = {}
 
+        # wP -> P
+        # bK -> k
         for i in ChessCore.WHITE_PIECE_SYMBOLS:
             piece_type = 'w' + i
-            piece_hashes[piece_type] = Lib.transform_board_piece(piece_type)
+            piece_hashes[piece_type] = i.lower()
 
-        for i in ChessCore.BLACK_PIECE_SYMBOLS:
-            piece_type = 'b' + i.upper()
-            piece_hashes[piece_type] = Lib.transform_board_piece(piece_type)
+        for j in ChessCore.BLACK_PIECE_SYMBOLS:
+            piece_type = 'b' + j
+            piece_hashes[piece_type] = j
 
         return render_template('main.html', piece_hashes=piece_hashes)

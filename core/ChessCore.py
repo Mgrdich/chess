@@ -11,8 +11,8 @@ from core.ChessUtil import ChessUtil
 
 class ChessCore(ChessUtil):
     PIECE_SYMBOLS = chess.PIECE_SYMBOLS[1:]  # remove none
-    WHITE_PIECE_SYMBOLS = PIECE_SYMBOLS  # lower case
-    BLACK_PIECE_SYMBOLS = [i.lower() for i in WHITE_PIECE_SYMBOLS]  # upper case
+    BLACK_PIECE_SYMBOLS = PIECE_SYMBOLS  # lower case
+    WHITE_PIECE_SYMBOLS = [i.upper() for i in BLACK_PIECE_SYMBOLS]  # upper case
 
     def __init__(self, fen=''):
         if fen:

@@ -19,11 +19,11 @@ class Lib:
             'error': msg
         }), 304)
 
-    @staticmethod
-    def transform_board_piece(piece: str) -> str:
-        # wP -> P
-        # bK -> k
-        if piece[0] == 'w':
-            return piece[1]
-
-        return piece[1].lower()
+    # @staticmethod
+    # def transform_board_piece(piece: str) -> str:
+    #     # wP -> P
+    #     # bK -> k
+    #     if piece[0] == 'w':
+    #         return piece[1]
+    #
+    #     return piece[1].lower()

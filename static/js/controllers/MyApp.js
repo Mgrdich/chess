@@ -90,6 +90,7 @@ myApp.directive('chessBoard', ['$http', function ($http) {
         },
         template: '<div style="width: 400px"></div>',
         link: function (scope, element, attrs, Ctrl) {
+            Ctrl.pieces_hash = scope.pieceHashes;
 
             scope.configs = scope.configs || {};
 
