@@ -13,7 +13,8 @@ myApp.directive('chessBoard', ['$http', function ($http) {
         restrict: 'A',
         replace: true,
         scope: {
-            configs: '=?configs'
+            configs: '=?configs',
+            pieceHashes:'=?'
         },
         controller: function ($scope) {
             this.suggestions = {};
@@ -89,6 +90,7 @@ myApp.directive('chessBoard', ['$http', function ($http) {
         },
         template: '<div style="width: 400px"></div>',
         link: function (scope, element, attrs, Ctrl) {
+
             scope.configs = scope.configs || {};
 
             let defaultConfig = {

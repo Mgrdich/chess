@@ -1,7 +1,6 @@
 import numpy as np
 from flask import session
 import chess
-from Util.Serialize import Serialize
 
 from core.ChessUtil import ChessUtil
 
@@ -9,13 +8,17 @@ from core.ChessUtil import ChessUtil
 # TODO maybe there should be a start function to init the the chess thingy while the class
 # Just creates the context
 
+
 class ChessCore(ChessUtil):
+    PIECE_SYMBOLS = chess.PIECE_SYMBOLS[1:]  # remove none
+    WHITE_PIECE_SYMBOLS = PIECE_SYMBOLS  # lower case
+    BLACK_PIECE_SYMBOLS = [i.lower() for i in WHITE_PIECE_SYMBOLS]  # upper case
+
     def __init__(self, fen=''):
         if fen:
             self.board = chess.Board(fen)
         else:
             self.board = chess.Board()
-
         super().__init__()
 
     def isLegalMove(self, move) -> bool:
