@@ -5,6 +5,8 @@ myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
 
 }]);
 
+const whiteSquareGrey = '#a9a9a9'
+const blackSquareGrey = '#696969'
 
 myApp.directive('chessBoard', ['$http', function ($http) {
     return {
@@ -13,30 +15,23 @@ myApp.directive('chessBoard', ['$http', function ($http) {
         scope: {
             configs: '=?configs'
         },
-        controller: function () {
+        controller: function ($scope) {
             this.suggestions = {};
             let self = this;
 
+
             this.onDrop = function (source, target) {
                 // see if the move is legal
-                // console.log(source, target);
+                $scope.removeGreySquares();
 
+                // illegal move
+                if(!self.suggestions[source] || !self.suggestions[source].includes(target)) {
+                    return 'snapback';
+                }
             };
 
             this.onDragStart = function (source, piece, position, orientation) {
                 // do not pick up pieces if the game is over
-                $http({
-                    method: 'GET',
-                    url: 'http://127.0.0.1:8080/api/moves/' + source
-                }).then(function (data) {
-                    if (data.status !== 200) {
-                        return
-                    }
-                    self.suggestions[source] = data.data;
-
-                }, function errorCallBack(err) {
-                    console.log(err);
-                })
             };
 
             this.onChange = function (oldPos, newPos) {
@@ -44,6 +39,49 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 console.log(oldPos, newPos);
                 console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
             };
+
+            this.grayFields = function (square) {
+                let moves = self.suggestions[square];
+                // exit if there are no moves available for this square
+                if (moves.length === 0) return
+
+                // highlight the square they moused over
+                $scope.greySquare(square)
+
+                // highlight the possible squares for this piece
+                for (let i = 0; i < moves.length; i++) {
+                    $scope.greySquare(moves[i]);
+                }
+            };
+
+            this.onMouseoverSquare = function (square, piece) {
+                // get list of possible moves for this square
+
+                if (self.suggestions[square]) {
+                    self.grayFields(square);
+                    return;
+                }
+
+                $http({
+                    method: 'GET',
+                    url: 'http://127.0.0.1:8080/api/moves/' + square
+                }).then(function (data) {
+                    if (data.status !== 200) {
+                        return
+                    }
+                    self.suggestions[square] = data.data.result;
+                    self.grayFields(square);
+                }, function errorCallBack(err) {
+                    console.log(err);
+                })
+
+            };
+
+            this.onMouseoutSquare = function (square, piece) {
+                // removeGreySquares()
+                $scope.removeGreySquares()
+            };
+
         },
         template: '<div style="width: 400px"></div>',
         link: function (scope, element, attrs, Ctrl) {
@@ -55,6 +93,8 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 position: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', //start position,
                 onDrop: Ctrl.onDrop,
                 onDragStart: Ctrl.onDragStart,
+                onMouseoutSquare: Ctrl.onMouseoutSquare,
+                onMouseoverSquare: Ctrl.onMouseoverSquare,
                 onChange: Ctrl.onChange
             };
 
@@ -62,6 +102,22 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 ...defaultConfig,
                 ...scope.configs
             });
+
+
+            scope.removeGreySquares = function () {
+                element.find('.square-55d63').css('background', '');
+            };
+
+            scope.greySquare = function (square) {
+                let $square = element.find('.square-' + square);
+
+                let background = whiteSquareGrey
+                if ($square.hasClass('black-3c85d')) {
+                    background = blackSquareGrey
+                }
+
+                $square.css('background', background)
+            }
 
             scope.$on('$destroy', function () {
                 // TODO unbind events
