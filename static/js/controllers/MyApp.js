@@ -28,10 +28,14 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 if(!self.suggestions[source] || !self.suggestions[source].includes(target)) {
                     return 'snapback';
                 }
+
+                // change Move Request
+                console.log(...arguments)
             };
 
             this.onDragStart = function (source, piece, position, orientation) {
                 // do not pick up pieces if the game is over
+                console.log(source, piece, position)
             };
 
             this.onChange = function (oldPos, newPos) {

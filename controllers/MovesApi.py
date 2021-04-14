@@ -31,9 +31,9 @@ class MovesApi(MethodView):
 
         core = ChessCore.getBoard()
 
+        core.move_piece(move_str)
+
         res = {
             'status': 1,
-            'result': [],
-            'move': move_str
         }
         return Lib.resJson(res)
