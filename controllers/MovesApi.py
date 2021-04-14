@@ -1,4 +1,3 @@
-from flask import make_response, jsonify, g
 from flask.views import MethodView
 from Util.Lib import Lib
 from Util.ErrorUtil import ErrorUtil
@@ -21,7 +20,7 @@ class MovesApi(MethodView):
 
         res = {
             'status': 1,
-            'result': core.getPossibleMovesAlg(alg_move)
+            'result': core.getPossibleMovesAlg(alg_move).tolist()
         }
 
         return Lib.resJson(res)
@@ -30,4 +29,11 @@ class MovesApi(MethodView):
     def put(move_str: str):
         """ Sets chess play in the Core """
 
-        return make_response(jsonify({'ks': 'emak'}), 200)
+        core = ChessCore.getBoard()
+
+        res = {
+            'status': 1,
+            'result': [],
+            'move': move_str
+        }
+        return Lib.resJson(res)

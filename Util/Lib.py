@@ -12,3 +12,9 @@ class Lib:
     @staticmethod
     def resJson(obj: object, status: int = 200):
         return make_response(jsonify(obj), status)
+
+    @staticmethod
+    def resInvalidJson(msg: str):
+        return make_response(jsonify({
+            'error': msg
+        }), 304)
