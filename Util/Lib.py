@@ -16,6 +16,7 @@ class Lib:
     @staticmethod
     def resInvalidJson(msg: str):
         return make_response(jsonify({
+            'status': 0,
             'error': msg
         }), 304)
 

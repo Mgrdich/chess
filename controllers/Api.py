@@ -28,17 +28,23 @@ class MovesApi(MethodView):
         return Lib.resJson(res)
 
 
+# Moves
 class MakeMoveApi(MethodView):
     """ api/make-move """
 
     @staticmethod
-    def post(move_str: str):
+    def post():
         """ Sets chess play in the Core """
         data = request.get_json()
 
-        core = ChessCore.getBoard()
+        if not data.move:
+            return Lib.resInvalidJson('move is required')
 
-        core.move_piece(move_str)
+
+
+        # core = ChessCore.getBoard()
+
+        # core.move_piece(move_str)
 
         res = {
             'status': 1,
