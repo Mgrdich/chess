@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, url_for, redirect
 import werkzeug
 from controllers.Game import GameView
-from controllers.MovesApi import MovesApi
+from controllers.Api import MovesApi, MakeMoveApi
 from controllers.index import IndexView
 import os
 
@@ -16,6 +16,7 @@ app = Flask(__name__)
 
 app.add_url_rule('/', view_func=IndexView.as_view('helloWorld'))
 app.add_url_rule('/game', view_func=GameView.as_view('game'))
+app.add_url_rule('/api/make-move', view_func=MakeMoveApi.as_view('makeMoveApi'))
 app.add_url_rule('/api/moves/<alg_move>', view_func=MovesApi.as_view('movesApi'))
 
 

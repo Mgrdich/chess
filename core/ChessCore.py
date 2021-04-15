@@ -10,11 +10,11 @@ from core.ChessUtil import ChessUtil
 
 
 class ChessCore(ChessUtil):
-    PIECE_SYMBOLS = chess.PIECE_SYMBOLS[1:]  # remove none
+    PIECE_SYMBOLS = chess.PIECE_SYMBOLS[1:]  # remove None
     BLACK_PIECE_SYMBOLS = PIECE_SYMBOLS  # lower case
     WHITE_PIECE_SYMBOLS = [i.upper() for i in BLACK_PIECE_SYMBOLS]  # upper case
 
-    def __init__(self, fen=''):
+    def __init__(self, fen: str = ''):
         if fen:
             self.board = chess.Board(fen)
         else:
@@ -45,7 +45,7 @@ class ChessCore(ChessUtil):
     def move_piece(self, move_notation: str):
         self.board.push_san(move_notation)
         self.setBoardToSession()
-        # tODO continue here
+        # TODO continue here
 
     # TODO turn this validation to a decorator
     def getPossibleMoves(self, alg_notation: str) -> np.ndarray:
@@ -68,7 +68,7 @@ class ChessCore(ChessUtil):
         return np.array(list(map(lambda move: chess.square_name(move.to_square), moves)))
 
     @staticmethod
-    def getBitSquare(alg_notation):
+    def getBitSquare(alg_notation: str):
         if not ChessUtil.isAlgebraicNotation(alg_notation):
             raise Exception('Not valid Algebraic notation')
 
