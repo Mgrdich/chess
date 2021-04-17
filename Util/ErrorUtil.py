@@ -49,10 +49,16 @@ class ErrorUtil:
 
     @staticmethod
     def isValidMoveNotation(name: str, move_str: str) -> object:
-        if len(move_str) != 3:
+        if len(move_str) != 3 or len(move_str) != 2:
             obj = ErrorUtil.errorObj(name=name, msg=ERROR_KEYS['not_valid_move_not'])
             return ErrorUtil.isInvalid(obj)
 
+        if len(move_str) == 2:
+            if move_str[0] not in chess.FILE_NAMES or move_str[1] not in chess.RANK_NAMES:
+                obj = ErrorUtil.errorObj(name=name, msg=ERROR_KEYS['not_valid_move_not'])
+                return ErrorUtil.isInvalid(obj)
+
+        # len 3
         if move_str[0].lower() not in ChessCore.PIECE_SYMBOLS or move_str[1] not in chess.FILE_NAMES \
                 or move_str[2] not in chess.RANK_NAMES:
             obj = ErrorUtil.errorObj(name=name, msg=ERROR_KEYS['not_valid_move_not'])
