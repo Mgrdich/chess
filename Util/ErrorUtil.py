@@ -12,7 +12,8 @@ from core.ChessUtil import ChessUtil
 ERROR_KEYS = {
     'not_valid_key': 'Not a valid key',
     'not_valid_move_not': 'Not a valid move notation',
-    'is_required': 'This Field is required'
+    'is_required': 'This Field is required',
+    'not_valid_possible_move': 'Not a valid Possible Move'
 }
 
 
@@ -66,6 +67,15 @@ class ErrorUtil:
 
         return ErrorUtil.isValid()
 
+    @staticmethod
+    def isValidMove(c: chess.Board, name: str, move_str: str) -> object:
+        try:
+            c.parse_san(move_str)
+            return ErrorUtil.isValid()
+        except ValueError:
+            obj = ErrorUtil.errorObj(name=name, msg=ERROR_KEYS['not_valid_possible_move'])
+            return ErrorUtil.isInvalid(obj)
+        
     @staticmethod
     def isValid() -> object:
         return {

@@ -47,9 +47,14 @@ class MakeMoveApi(MethodView):
         if not move_validation['valid']:
             return move_validation['response']
 
-        # core = ChessCore.getBoard()
+        core = ChessCore.getBoard()
 
-        # core.move_piece(move_str)
+        parsed_move_validation = ErrorUtil.isValidMove(core, 'move', data.move)
+
+        if not parsed_move_validation['valid']:
+            return parsed_move_validation['response']
+
+        core.move_piece(data.move)
 
         res = {
             'status': 1,
