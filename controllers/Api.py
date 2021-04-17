@@ -37,24 +37,24 @@ class MakeMoveApi(MethodView):
         """ Sets chess play in the Core """
         data = request.get_json()
 
-        required_validation = ErrorUtil.isRequired('move', data.move)
+        required_validation = ErrorUtil.isRequired('move', data)
 
         if not required_validation['valid']:
             return required_validation['response']
 
-        move_validation = ErrorUtil.isValidMoveNotation('move', data.move)
+        move_validation = ErrorUtil.isValidMoveNotation('move', data['move'])
 
         if not move_validation['valid']:
             return move_validation['response']
 
         core = ChessCore.getBoard()
 
-        parsed_move_validation = ErrorUtil.isValidMove(core, 'move', data.move)
+        parsed_move_validation = ErrorUtil.isValidMove(core.board, 'move', data['move'])
 
         if not parsed_move_validation['valid']:
             return parsed_move_validation['response']
 
-        core.move_piece(data.move)
+        core.move_piece(data['move'])
 
         res = {
             'status': 1,
