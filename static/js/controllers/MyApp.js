@@ -40,8 +40,8 @@ myApp.directive('chessBoard', ['$http', function ($http) {
         scope: {
             configs: '=?configs',
             pieceHashes: '=',
-            suggestionUrl:'@',
-            moveUrl:'@'
+            suggestionUrl: '@',
+            moveUrl: '@'
         },
         controller: function ($scope) {
             this.suggestions = {};
@@ -61,7 +61,20 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 if ($scope.pieceHashes[element] !== 'p') {
                     move = $scope.pieceHashes[element].toUpperCase() + move;
                 }
-
+                $http({
+                    method: 'POST',
+                    url: 'http://127.0.0.1:8080' + $scope.moveUrl,
+                    data: {
+                        move: move
+                    }
+                }).then(function (data) {
+                    data = data.data;
+                    if (data.status === 0) {
+                        return 'snapback';
+                    }
+                }, function errorCallBack(err) {
+                    console.log(err);
+                })
 
             };
 
@@ -93,6 +106,10 @@ myApp.directive('chessBoard', ['$http', function ($http) {
             this.onMouseoverSquare = function (square, piece) {
                 // get list of possible moves for this square
 
+                if (!piece) {
+                    return;
+                }
+
                 if (self.suggestions[square]) {
                     self.grayFields(square);
                     return;
@@ -100,12 +117,14 @@ myApp.directive('chessBoard', ['$http', function ($http) {
 
                 $http({
                     method: 'GET',
-                    url: 'http://127.0.0.1:8080/api/moves/' + square
+                    url: 'http://127.0.0.1:8080' + $scope.suggestionUrl + '/' + square
                 }).then(function (data) {
-                    if (data.status !== 200) {
+                    data = data.data;
+
+                    if (!data.status) {
                         return
                     }
-                    self.suggestions[square] = data.data.result;
+                    self.suggestions[square] = data.result;
                     self.grayFields(square);
                 }, function errorCallBack(err) {
                     console.log(err);

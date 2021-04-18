@@ -8,6 +8,7 @@ class Routes:
     def __init__(self):
         pass
 
+    # maybe create two things one for internal use case and one for front ?
     @staticmethod
     def getRoute(route: str, param: str = '') -> str:
         if param:
