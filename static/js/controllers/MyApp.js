@@ -6,6 +6,10 @@ myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.form = {};
 
     $scope.submitFen = function (url) {
+        if (!url || !$scope.form.fen) {
+            return;
+        }
+
         $http({
             method: 'POST',
             url: url,
