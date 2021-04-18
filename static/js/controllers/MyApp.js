@@ -3,6 +3,27 @@ let myApp = angular.module('myApp', []);
 myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.chessBoardConfigs = {};
 
+    $scope.form = {};
+
+    $scope.submitFen = function (url) {
+        $http({
+            method: 'POST',
+            url: url,
+            data: {
+                fen: $scope.form.fen
+            }
+        }).then(function (data) {
+            if (!data.status) {
+                return; // TODO Validation later on
+            }
+
+            $scope.showChessBoard = true;
+            $scope.boardFen = data.fen;
+
+        }, function errorCallBack(err) {
+            console.log(err);
+        })
+    }
 }]);
 
 const whiteSquareGrey = '#a9a9a9'
@@ -14,7 +35,7 @@ myApp.directive('chessBoard', ['$http', function ($http) {
         replace: true,
         scope: {
             configs: '=?configs',
-            pieceHashes:'=?'
+            pieceHashes: '=?'
         },
         controller: function ($scope) {
             this.suggestions = {};
@@ -26,7 +47,7 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 $scope.removeGreySquares();
 
                 // illegal move
-                if(!self.suggestions[source] || !self.suggestions[source].includes(target)) {
+                if (!self.suggestions[source] || !self.suggestions[source].includes(target)) {
                     return 'snapback';
                 }
 

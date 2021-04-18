@@ -1,6 +1,9 @@
 from dotenv import load_dotenv
 from flask import Flask, render_template, url_for, redirect
 import werkzeug
+from Util.Route import Routes
+
+from controllers.ConfigGame import ConfigGame
 from controllers.Game import GameView
 from controllers.Api import MovesApi, MakeMoveApi
 from controllers.index import IndexView
@@ -14,10 +17,11 @@ app = Flask(__name__)
 
 # Routes
 
-app.add_url_rule('/', view_func=IndexView.as_view('helloWorld'))
-app.add_url_rule('/game', view_func=GameView.as_view('game'))
-app.add_url_rule('/api/make-move', view_func=MakeMoveApi.as_view('makeMoveApi'))
-app.add_url_rule('/api/moves/<alg_move>', view_func=MovesApi.as_view('movesApi'))
+app.add_url_rule(Routes.Index, view_func=IndexView.as_view('helloWorld'))
+app.add_url_rule(Routes.Game_Url, view_func=GameView.as_view('game'))
+app.add_url_rule(Routes.Config_Game, view_func=ConfigGame.as_view('configGame'))
+app.add_url_rule(Routes.Api_Make_Move, view_func=MakeMoveApi.as_view('makeMoveApi'))
+app.add_url_rule(Routes.Api_Moves, view_func=MovesApi.as_view('movesApi'))
 
 
 @app.errorhandler(404)

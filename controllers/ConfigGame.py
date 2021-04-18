@@ -5,8 +5,8 @@ from Util.Lib import Lib
 from core.ChessCore import ChessCore
 
 
-class GameView(View):
-    methods = ['GET']
+class ConfigGame(View):
+    methods = ['GET', 'POST']
 
     def dispatch_request(self):
         if 'board' not in session:
@@ -15,4 +15,4 @@ class GameView(View):
 
         piece_hashes = Lib.getPieceHashes()
 
-        return render_template('main.html', piece_hashes=piece_hashes)
+        return render_template('configTemplate.html', piece_hashes=piece_hashes)

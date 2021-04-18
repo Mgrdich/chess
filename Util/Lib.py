@@ -1,5 +1,7 @@
 from flask import make_response, jsonify
 
+from core.ChessCore import ChessCore
+
 """
     Universal Utility store 
 """
@@ -20,11 +22,18 @@ class Lib:
             'error': msg
         }), 304)
 
-    # @staticmethod
-    # def transform_board_piece(piece: str) -> str:
-    #     # wP -> P
-    #     # bK -> k
-    #     if piece[0] == 'w':
-    #         return piece[1]
-    #
-    #     return piece[1].lower()
+    @staticmethod
+    def getPieceHashes() -> object:
+        piece_hashes = {}
+
+        # wP -> P
+        # bK -> k
+        for i in ChessCore.WHITE_PIECE_SYMBOLS:
+            piece_type = 'w' + i
+            piece_hashes[piece_type] = i.lower()
+
+        for j in ChessCore.BLACK_PIECE_SYMBOLS:
+            piece_type = 'b' + j
+            piece_hashes[piece_type] = j
+
+        return piece_hashes

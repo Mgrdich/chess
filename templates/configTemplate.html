@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+{% include 'head.html' %}
+<body ng-controller="ChessCtrl" ng-init="piece_hashes = {{piece_hashes}}">
+<input type="text" ng-model="form.fen">
+<button ng-click="submitFen('someUrlHerePassedByBe')"></button>
+<div ng-if="showChessBoard">
+    <div chess-board
+         style="width: 400px"
+         piece-hashes="piece_hashes"
+    ></div>
+</div>
+<a href="/">back to main page</a>
+</body>
+{% include 'scripts.html' %}
+</html>
