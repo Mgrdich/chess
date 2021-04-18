@@ -1,5 +1,8 @@
 let myApp = angular.module('myApp', []);
 
+const whiteSquareGrey = '#a9a9a9'
+const blackSquareGrey = '#696969'
+
 myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.chessBoardConfigs = {};
 
@@ -30,23 +33,22 @@ myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
     }
 }]);
 
-const whiteSquareGrey = '#a9a9a9'
-const blackSquareGrey = '#696969'
-
 myApp.directive('chessBoard', ['$http', function ($http) {
     return {
         restrict: 'A',
         replace: true,
         scope: {
             configs: '=?configs',
-            pieceHashes: '=?'
+            pieceHashes: '=',
+            suggestionUrl:'@',
+            moveUrl:'@'
         },
         controller: function ($scope) {
             this.suggestions = {};
             let self = this;
 
 
-            this.onDrop = function (source, target) {
+            this.onDrop = function (source, target, element) {
                 // see if the move is legal
                 $scope.removeGreySquares();
 
@@ -55,8 +57,12 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                     return 'snapback';
                 }
 
-                // change Move Request
-                console.log(...arguments)
+                let move = target;
+                if ($scope.pieceHashes[element] !== 'p') {
+                    move = $scope.pieceHashes[element].toUpperCase() + move;
+                }
+
+
             };
 
             this.onDragStart = function (source, piece, position, orientation) {

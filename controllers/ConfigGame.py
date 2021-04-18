@@ -15,6 +15,6 @@ class ConfigGame(View):
             core.setBoardToSession()
 
         piece_hashes = Lib.getPieceHashes()
-        CONFIG_GAME_ROUTE = Routes.Config_Game
+        CONFIG_GAME_ROUTE = Routes.getRoute(Routes.Config_Game)
 
         return render_template('config.html', piece_hashes=piece_hashes, CONFIG_GAME_ROUTE=CONFIG_GAME_ROUTE)

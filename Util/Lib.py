@@ -33,7 +33,7 @@ class Lib:
             piece_hashes[piece_type] = i.lower()
 
         for j in ChessCore.BLACK_PIECE_SYMBOLS:
-            piece_type = 'b' + j
+            piece_type = 'b' + j.upper()
             piece_hashes[piece_type] = j
 
         return piece_hashes

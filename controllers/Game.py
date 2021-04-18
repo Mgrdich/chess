@@ -15,4 +15,6 @@ class GameView(View):
 
         piece_hashes = Lib.getPieceHashes()
 
+
+
         return render_template('main.html', piece_hashes=piece_hashes)
