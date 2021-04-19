@@ -13,6 +13,7 @@ myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
             return;
         }
 
+        $scope.showChessBoard = false; // TODO check for more optimal way??
         $http({
             method: 'POST',
             url: url,
@@ -27,7 +28,7 @@ myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
             }
 
             $scope.showChessBoard = true;
-            $scope.boardFen = data;
+            $scope.boardFen = data.fen;
 
         }, function errorCallBack(err) {
             console.log(err);
@@ -158,6 +159,11 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 onChange: Ctrl.onChange
             };
 
+
+            console.log({
+                ...defaultConfig,
+                ...scope.configs
+            })
             let board = ChessBoard(element, {
                 ...defaultConfig,
                 ...scope.configs

@@ -49,7 +49,7 @@ class ConfigGame(View):
 
         res = {
             'status': 1,
-            'data': data['fen']
+            'fen': data['fen']
         }
 
         return Lib.resJson(res)
