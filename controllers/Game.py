@@ -8,9 +8,10 @@ from core.ChessCore import ChessCore
 
 class GameView(View):
     methods = ['GET']
+    session_key = 'board'
 
     def dispatch_request(self):
-        if 'board' not in session:
+        if GameView.session_key not in session:
             core = ChessCore()
             core.setBoardToSession()
         else:

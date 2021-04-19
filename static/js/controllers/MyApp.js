@@ -20,12 +20,14 @@ myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
                 fen: $scope.form.fen
             }
         }).then(function (data) {
+            data = data.data;
+
             if (!data.status) {
                 return; // TODO Validation later on
             }
 
             $scope.showChessBoard = true;
-            $scope.boardFen = data.fen;
+            $scope.boardFen = data;
 
         }, function errorCallBack(err) {
             console.log(err);

@@ -18,9 +18,11 @@ class ConfigGame(View):
 
     @staticmethod
     def get():
-        if 'board' not in session:
+        if ConfigGame.session_key not in session:
             core = ChessCore()
             core.setBoardToSession()
+        else:
+            core = ChessCore.getBoard()
 
         piece_hashes = Lib.getPieceHashes()
 
@@ -34,9 +36,20 @@ class ConfigGame(View):
                                piece_hashes=piece_hashes,
                                CONFIG_GAME_ROUTE=CONFIG_GAME_ROUTE,
                                SUGGESTION_URL=SUGGESTION_URL,
-                               MOVE_URL=MOVE_URL
+                               MOVE_URL=MOVE_URL,
+                               FEN=core.board.fen()
                                )
 
     @staticmethod
     def post():
-        pass
+        data = request.get_json()
+
+        core = ChessCore(data['fen'])
+        core.setBoardToSession(session_key=ConfigGame.session_key)
+
+        res = {
+            'status': 1,
+            'data': data['fen']
+        }
+
+        return Lib.resJson(res)
