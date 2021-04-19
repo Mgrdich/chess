@@ -36,8 +36,8 @@ class ChessCore(ChessUtil):
     def isStaleMate(self) -> bool:
         return self.board.is_stalemate()
 
-    def setBoardToSession(self):
-        session['board'] = self.board.fen()
+    def setBoardToSession(self, session_key: str = 'board'):
+        session[session_key] = self.board.fen()
 
     def printBoard(self):
         print(self.board)
@@ -76,8 +76,8 @@ class ChessCore(ChessUtil):
 
     # TODO check whether is okay to be here or in an individual function
     @staticmethod
-    def getBoard():
-        if 'board' in session:
+    def getBoard(session_key: str = 'board'):
+        if session_key in session:
             return ChessCore(session['board'])
 
         return ChessCore()

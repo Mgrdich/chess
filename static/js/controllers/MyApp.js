@@ -72,6 +72,7 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                     if (data.status === 0) {
                         return 'snapback';
                     }
+                    self.suggestions = {}; // reset suggestion
                 }, function errorCallBack(err) {
                     console.log(err);
                 })
