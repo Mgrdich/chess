@@ -27,7 +27,6 @@ myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
                 return; // TODO Validation later on
             }
 
-            $scope.showChessBoard = true;
             $scope.boardFen = data.fen;
 
         }, function errorCallBack(err) {

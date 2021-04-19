@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="myApp">
 {% include 'head.html' %}
-<body ng-controller="ChessCtrl" ng-init="piece_hashes = {{piece_hashes}}">
+<body ng-controller="ChessCtrl" ng-init="piece_hashes = {{piece_hashes}};boardFen='{{FEN}}'">
 <div style="display: flex">
     <input type="text" ng-model="form.fen" style="width: 100%">
     <button ng-click="submitFen('{{CONFIG_GAME_ROUTE}}')">submit</button>
 </div>
 
-<div ng-if="showChessBoard">
+<div ng-if="!!boardFen">
     <div chess-board
          style="width: 400px"
          piece-hashes="piece_hashes"
