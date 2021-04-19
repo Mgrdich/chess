@@ -18,10 +18,9 @@ class ConfigGame(View):
 
     @staticmethod
     def get():
-        if ConfigGame.session_key not in session:
-            core = ChessCore()
-            core.setBoardToSession()
-        else:
+        core = None
+
+        if ConfigGame.session_key in session:
             core = ChessCore.getBoard()
 
         piece_hashes = Lib.getPieceHashes()
@@ -32,12 +31,14 @@ class ConfigGame(View):
 
         MOVE_URL = Routes.getRoute(Routes.Api_Make_Move)
 
+        FEN = core.board.fen() if core else ''
+
         return render_template('config.html',
                                piece_hashes=piece_hashes,
                                CONFIG_GAME_ROUTE=CONFIG_GAME_ROUTE,
                                SUGGESTION_URL=SUGGESTION_URL,
                                MOVE_URL=MOVE_URL,
-                               FEN=core.board.fen()
+                               FEN=FEN
                                )
 
     @staticmethod
