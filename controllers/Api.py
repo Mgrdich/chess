@@ -2,6 +2,8 @@ from flask import request
 from flask.views import MethodView
 from Util.Lib import Lib
 from Util.ErrorUtil import ErrorUtil
+from controllers.ConfigGame import ConfigGame
+from controllers.Game import GameView
 from core.ChessCore import ChessCore
 
 
@@ -18,7 +20,16 @@ class MovesApi(MethodView):
         if not alg_validation['valid']:
             return alg_validation['response']
 
-        core = ChessCore.getBoard()
+        page_action = request.referrer.rsplit('/', 1)[-1]
+
+        # TODO put some kind of place for all this information to be stored
+        session_key = ConfigGame.session_key if page_action == 'config-game' else GameView.session_key
+
+        print(session_key)
+
+        core = ChessCore.getBoard(session_key)
+
+        print(core.board)
 
         res = {
             'status': 1,
@@ -47,7 +58,12 @@ class MakeMoveApi(MethodView):
         if not move_validation['valid']:
             return move_validation['response']
 
-        core = ChessCore.getBoard()
+        page_action = request.referrer.rsplit('/', 1)[-1]
+
+        # TODO put some kind of place for all this information to be stored
+        session_key = ConfigGame.session_key if page_action == 'config-game' else GameView.session_key
+
+        core = ChessCore.getBoard(session_key)
 
         parsed_move_validation = ErrorUtil.isValidMove(core.board, 'move', data['move'])
 

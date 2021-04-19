@@ -78,6 +78,6 @@ class ChessCore(ChessUtil):
     @staticmethod
     def getBoard(session_key: str = 'board'):
         if session_key in session:
-            return ChessCore(session['board'])
+            return ChessCore(session[session_key])
 
         return ChessCore()
