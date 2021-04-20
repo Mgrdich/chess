@@ -3,6 +3,10 @@ let myApp = angular.module('myApp', []);
 const whiteSquareGrey = '#a9a9a9'
 const blackSquareGrey = '#696969'
 
+const kingCastle = '0-0';
+
+const queenCastle = '0-0-0';
+
 myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.chessBoardConfigs = {};
 

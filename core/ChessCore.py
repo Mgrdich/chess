@@ -42,10 +42,9 @@ class ChessCore(ChessUtil):
     def printBoard(self):
         print(self.board)
 
-    def move_piece(self, move_notation: str):
+    def movePiece(self, move_notation: str):
         self.board.push_san(move_notation)
         self.setBoardToSession()
-        # TODO continue here
 
     # TODO turn this validation to a decorator
     def getPossibleMoves(self, alg_notation: str) -> np.ndarray:

@@ -15,3 +15,7 @@ class Routes:
             return route + '/' + param
 
         return route
+
+    @staticmethod
+    def getRouteAction(route: str) -> str:
+        return route[1:]
