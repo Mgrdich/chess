@@ -1,4 +1,5 @@
 class Routes:
+    # TODO maybe turn this into Enum??
     Index = '/'
     Game_Url = '/game'
     Config_Game = '/config-game'

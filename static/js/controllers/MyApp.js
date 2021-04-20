@@ -162,16 +162,10 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 onChange: Ctrl.onChange
             };
 
-
-            console.log({
-                ...defaultConfig,
-                ...scope.configs
-            })
             let board = ChessBoard(element, {
                 ...defaultConfig,
                 ...scope.configs
             });
-
 
             scope.removeGreySquares = function () {
                 element.find('.square-55d63').css('background', '');
