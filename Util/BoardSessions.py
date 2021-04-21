@@ -7,7 +7,7 @@ from Util.Route import Routes
 
 class BoardSessions:
     configRouteAction = Routes.getRouteAction(Routes.Config_Game)
-    gameRouteAction = Routes.getRouteAction(Routes.Config_Game)
+    gameRouteAction = Routes.getRouteAction(Routes.Game_Url)
     KEYS = {
         configRouteAction: configRouteAction + '_board',
         gameRouteAction: gameRouteAction + '_board'
@@ -17,5 +17,6 @@ class BoardSessions:
         pass
 
     @staticmethod
-    def getBoardSessionFromRequest() -> str:
-        pass
+    def getBoardSessionFromRequest(referrer_url: str) -> str:
+        page_action = referrer_url.rsplit('/', 1)[-1]
+        return BoardSessions.KEYS[page_action]
