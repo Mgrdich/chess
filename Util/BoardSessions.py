@@ -17,6 +17,10 @@ class BoardSessions:
         pass
 
     @staticmethod
-    def getBoardSessionFromRequest(referrer_url: str) -> str:
-        page_action = referrer_url.rsplit('/', 1)[-1]
-        return BoardSessions.KEYS[page_action]
+    def getBoardSession(url: str) -> str:
+        page_action = url.rsplit('/', 1)[-1]
+        if page_action in BoardSessions.KEYS:
+            return BoardSessions.KEYS[page_action]
+
+        return ''
+

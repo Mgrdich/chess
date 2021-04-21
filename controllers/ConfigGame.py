@@ -1,6 +1,7 @@
 from flask import render_template, session, request
 from flask.views import View
 
+from Util.BoardSessions import BoardSessions
 from Util.Lib import Lib
 from Util.Route import Routes
 from core.ChessCore import ChessCore
@@ -8,7 +9,7 @@ from core.ChessCore import ChessCore
 
 class ConfigGame(View):
     methods = ['GET', 'POST']
-    session_key = 'config_fen_board'
+    session_key = BoardSessions.getBoardSession(Routes.Config_Game)
 
     def dispatch_request(self):
         if request.method == 'GET':

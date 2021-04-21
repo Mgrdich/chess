@@ -1,6 +1,7 @@
 from flask import render_template, session
 from flask.views import View
 
+from Util.BoardSessions import BoardSessions
 from Util.Lib import Lib
 from Util.Route import Routes
 from core.ChessCore import ChessCore
@@ -8,7 +9,7 @@ from core.ChessCore import ChessCore
 
 class GameView(View):
     methods = ['GET']
-    session_key = 'board'
+    session_key = BoardSessions.getBoardSession(Routes.Game_Url)
 
     def dispatch_request(self):
         if GameView.session_key not in session:
@@ -16,8 +17,6 @@ class GameView(View):
             core.setBoardToSession()
         else:
             core = ChessCore.getBoard()
-
-        core.printBoard()
 
         piece_hashes = Lib.getPieceHashes()
 

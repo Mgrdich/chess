@@ -2,6 +2,8 @@ import numpy as np
 from flask import session
 import chess
 
+from Util.BoardSessions import BoardSessions
+from Util.Route import Routes
 from core.ChessUtil import ChessUtil
 
 
@@ -13,6 +15,8 @@ class ChessCore(ChessUtil):
     PIECE_SYMBOLS = chess.PIECE_SYMBOLS[1:]  # remove None
     BLACK_PIECE_SYMBOLS = PIECE_SYMBOLS  # lower case
     WHITE_PIECE_SYMBOLS = [i.upper() for i in BLACK_PIECE_SYMBOLS]  # upper case
+
+    DEFAULT_GAME_SESSION = BoardSessions.getBoardSession(Routes.Game_Url)
 
     def __init__(self, fen: str = ''):
         if fen:
@@ -36,7 +40,7 @@ class ChessCore(ChessUtil):
     def isStaleMate(self) -> bool:
         return self.board.is_stalemate()
 
-    def setBoardToSession(self, session_key: str = 'board'):
+    def setBoardToSession(self, session_key: str = DEFAULT_GAME_SESSION):
         session[session_key] = self.board.fen()
 
     def printBoard(self):
@@ -75,7 +79,7 @@ class ChessCore(ChessUtil):
 
     # TODO check whether is okay to be here or in an individual function
     @staticmethod
-    def getBoard(session_key: str = 'board'):
+    def getBoard(session_key: str = DEFAULT_GAME_SESSION):
         if session_key in session:
             return ChessCore(session[session_key])
 

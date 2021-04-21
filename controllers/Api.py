@@ -22,11 +22,9 @@ class MovesApi(MethodView):
         if not alg_validation['valid']:
             return alg_validation['response']
 
-        session_key = BoardSessions.getBoardSessionFromRequest(request.referrer)
+        session_key = BoardSessions.getBoardSession(request.referrer)
 
         core = ChessCore.getBoard(session_key)
-
-        core.printBoard()
 
         res = {
             'status': 1,
@@ -55,7 +53,7 @@ class MakeMoveApi(MethodView):
         if not move_validation['valid']:
             return move_validation['response']
 
-        session_key = BoardSessions.getBoardSessionFromRequest(request.referrer)
+        session_key = BoardSessions.getBoardSession(request.referrer)
 
         core = ChessCore.getBoard(session_key)
 
@@ -65,6 +63,8 @@ class MakeMoveApi(MethodView):
             return parsed_move_validation['response']
 
         core.movePiece(data['move'])
+
+        core.printBoard()
 
         res = {
             'status': 1,
