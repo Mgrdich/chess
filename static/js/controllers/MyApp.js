@@ -46,8 +46,8 @@ myApp.directive('chessBoard', ['$http', function ($http) {
         scope: {
             configs: '=?configs',
             pieceHashes: '=',
-            suggestionUrl: '@',
-            moveUrl: '@'
+            suggestionUrl: '@?',
+            moveUrl: '@?'
         },
         controller: function ($scope) {
             this.suggestions = {};
@@ -155,12 +155,20 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 draggable: true,
                 pieceTheme: '/static/img/chesspieces/{piece}.png',
                 position: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', //start position,
-                onDrop: Ctrl.onDrop,
-                onDragStart: Ctrl.onDragStart,
-                onMouseoutSquare: Ctrl.onMouseoutSquare,
-                onMouseoverSquare: Ctrl.onMouseoverSquare,
-                onChange: Ctrl.onChange
+
             };
+
+            if (angular.isDefined(scope.suggestionUrl) && angular.isDefined(scope.moveUrl)) {
+                defaultConfig = {
+                    ...defaultConfig,
+                    onDrop: Ctrl.onDrop,
+                    onDragStart: Ctrl.onDragStart,
+                    onMouseoutSquare: Ctrl.onMouseoutSquare,
+                    onMouseoverSquare: Ctrl.onMouseoverSquare,
+                    onChange: Ctrl.onChange
+                }
+            }
+
 
             let board = ChessBoard(element, {
                 ...defaultConfig,
@@ -184,6 +192,7 @@ myApp.directive('chessBoard', ['$http', function ($http) {
 
             scope.$on('$destroy', function () {
                 // TODO unbind events
+
             });
         }
     }
