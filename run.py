@@ -21,6 +21,7 @@ app.add_url_rule(Routes.getRoute(Routes.Index), view_func=IndexView.as_view('hel
 app.add_url_rule(Routes.getRoute(Routes.Game_Url), view_func=GameView.as_view('game'))
 app.add_url_rule(Routes.getRoute(Routes.Config_Game), view_func=ConfigGame.as_view('configGame'))
 app.add_url_rule(Routes.getRoute(Routes.Api_Make_Move), view_func=MakeMoveApi.as_view('makeMoveApi'))
+app.add_url_rule(Routes.getRoute(Routes.Fen), view_func=MakeMoveApi.as_view('Fen'))
 app.add_url_rule(Routes.getRoute(Routes.Api_Moves, '<alg_move>'), view_func=MovesApi.as_view('movesApi'))
 
 

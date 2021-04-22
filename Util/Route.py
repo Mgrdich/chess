@@ -5,6 +5,7 @@ class Routes:
     Config_Game = '/config-game'
     Api_Make_Move = '/api/make-move'
     Api_Moves = '/api/moves'
+    Fen = '/fen'
 
     def __init__(self):
         pass

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+{% include 'head.html' %}
+<body ng-controller="ChessCtrl" ng-init="piece_hashes = {{piece_hashes}};boardFen='{{FEN}}'">
+
+<div chess-board
+     style="width: 400px"
+     piece-hashes="piece_hashes"
+     suggestion-url="{{SUGGESTION_URL}}"
+     move-url="{{MOVE_URL}}"
+     configs="{
+            position:boardFen
+         }"
+></div>
+<a href="/">back to main page</a>
+</body>
+{% include 'scripts.html' %}
+</html>
