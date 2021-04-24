@@ -13,8 +13,10 @@
             position:''
          }"
 ></div>
+<div ng-bind="fen" style="margin-bottom: 20px;"></div>
 <button ng-click="startPositionBoard('chessBoard')">Start Position</button>
-<button ng-click="clearBoard('chessBoard')">End Position</button>
+<button ng-click="getFen('chessBoard')">Get FEN</button>
+<button ng-click="clearBoard('chessBoard')">Clear</button>
 <a href="/">back to main page</a>
 </body>
 {% include 'scripts.html' %}

@@ -41,11 +41,18 @@ myApp.controller('ChessCtrl', ['$scope', '$http', '$chessBoard', function ($scop
     $scope.startPositionBoard = function (id) {
         let board = $chessBoard.$getBoard(id);
         board.start();
+        $scope.getFen(id);
     };
 
-    $scope.clearBoard = function () {
+    $scope.clearBoard = function (id) {
         let board = $chessBoard.$getBoard(id);
         board.clear();
+        $scope.fen = null;
+    };
+
+    $scope.getFen = function (id) {
+        let board = $chessBoard.$getBoard(id);
+        $scope.fen = board.fen()
     };
 
 }]);
