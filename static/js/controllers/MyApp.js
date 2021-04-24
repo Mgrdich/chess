@@ -7,7 +7,7 @@ const kingCastle = '0-0';
 
 const queenCastle = '0-0-0';
 
-myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
+myApp.controller('ChessCtrl', ['$scope', '$http', '$chessBoard', function ($scope, $http, $chessBoard) {
     $scope.chessBoardConfigs = {};
 
     $scope.form = {};
@@ -37,9 +37,45 @@ myApp.controller('ChessCtrl', ['$scope', '$http', function ($scope, $http) {
             console.log(err);
         })
     }
-}]);
 
-myApp.directive('chessBoard', ['$http', function ($http) {
+    $scope.startPositionBoard = function (id) {
+        let board = $chessBoard.$getBoard(id);
+        board.start();
+    };
+
+    $scope.clearBoard = function () {
+        let board = $chessBoard.$getBoard(id);
+        board.clear();
+    };
+
+}]);
+myApp.service('$chessBoard', function () {
+    // hashed by element id and
+    let boards = {};
+
+    this.$setChessBoard = function (id, element) {
+        if (angular.isUndefined(id)) {
+            return;
+        }
+        boards[id] = element;
+    }
+
+    this.$deleteChessBoard = function (id) {
+        if (angular.isUndefined(id)) {
+            return;
+        }
+        delete boards[id];
+    }
+
+    this.$getBoard = function (id) {
+        if (!id && !boards[id]) {
+            return;
+        }
+        return boards[id];
+    }
+});
+
+myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBoard) {
     return {
         restrict: 'A',
         replace: true,
@@ -48,7 +84,7 @@ myApp.directive('chessBoard', ['$http', function ($http) {
             pieceHashes: '=',
             suggestionUrl: '@?',
             moveUrl: '@?',
-            id:'@'
+            chessId: '@'
         },
         controller: function ($scope) {
             this.suggestions = {};
@@ -151,23 +187,23 @@ myApp.directive('chessBoard', ['$http', function ($http) {
             };
 
         },
-        template: '<div style="width: 400px"></div>',
-        link: function (scope, element, attrs, Ctrl) {
-            Ctrl.pieces_hash = scope.pieceHashes;
+        template: '<div id="{{id}}" style="width: 400px"></div>',
+        link: function ($scope, element, attrs, Ctrl) {
+            Ctrl.pieces_hash = $scope.pieceHashes;
 
 
-            // access this from the upper scope
-            scope.$parent.gameStatus = {
+            // access this from the upper $scope
+            $scope.$parent.gameStatus = {
                 log: '',
                 turn: '',
 
             };
 
             // same reference
-            scope.localGameStatus = scope.$parent.gameStatus;
+            $scope.localGameStatus = $scope.$parent.gameStatus;
 
 
-            scope.configs = scope.configs || {};
+            $scope.configs = $scope.configs || {};
 
             let defaultConfig = {
                 draggable: true,
@@ -176,7 +212,7 @@ myApp.directive('chessBoard', ['$http', function ($http) {
 
             };
 
-            if (angular.isDefined(scope.suggestionUrl) && angular.isDefined(scope.moveUrl)) {
+            if (angular.isDefined($scope.suggestionUrl) && angular.isDefined($scope.moveUrl)) {
                 defaultConfig = {
                     ...defaultConfig,
                     onDrop: Ctrl.onDrop,
@@ -189,16 +225,16 @@ myApp.directive('chessBoard', ['$http', function ($http) {
 
             let board = ChessBoard(element, {
                 ...defaultConfig,
-                ...scope.configs
+                ...$scope.configs
             });
 
+            $chessBoard.$setChessBoard($scope.chessId, board)
 
-
-            scope.removeGreySquares = function () {
+            $scope.removeGreySquares = function () {
                 element.find('.square-55d63').css('background', '');
             };
 
-            scope.greySquare = function (square) {
+            $scope.greySquare = function (square) {
                 let $square = element.find('.square-' + square);
 
                 let background = whiteSquareGrey
@@ -209,17 +245,10 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 $square.css('background', background)
             }
 
-            scope.$on('$destroy', function () {
+            $scope.$on('$destroy', function () {
                 // TODO unbind events
-
+                $chessBoard.$deleteChessBoard($scope.id);
             });
         }
     }
 }]);
-
-
-myApp.directive('$chessBoard', function () {
-    // hashed by element id and
-    let boards = {};
-
-});

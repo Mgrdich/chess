@@ -5,14 +5,16 @@
 
 <div chess-board
      style="width: 400px"
-     id="chessBoard"
+     chess-id="chessBoard"
      piece-hashes="piece_hashes"
      configs="{
-            draggable: true,
             dropOffBoard: 'trash',
-            sparePieces: true
+            sparePieces: true,
+            position:''
          }"
 ></div>
+<button ng-click="startPositionBoard('chessBoard')">Start Position</button>
+<button ng-click="clearBoard('chessBoard')">End Position</button>
 <a href="/">back to main page</a>
 </body>
 {% include 'scripts.html' %}
