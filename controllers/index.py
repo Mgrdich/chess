@@ -10,4 +10,5 @@ class IndexView(View):
     def dispatch_request(self):
         GAME_ROUTE = Routes.getRoute(Routes.Game_Url)
         CONFIG_ROUTE = Routes.getRoute(Routes.Config_Game)
-        return render_template('index.html', GAME_ROUTE=GAME_ROUTE, CONFIG_ROUTE=CONFIG_ROUTE)
+        FEN_ROUTE = Routes.getRoute(Routes.Fen)
+        return render_template('index.html', GAME_ROUTE=GAME_ROUTE, CONFIG_ROUTE=CONFIG_ROUTE, FEN_ROUTE=FEN_ROUTE)

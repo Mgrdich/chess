@@ -79,6 +79,7 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                         return 'snapback';
                     }
                     self.suggestions = {}; // reset suggestion
+                    self.updateStatus();
                 }, function errorCallBack(err) {
                     console.log(err);
                 })
@@ -144,10 +145,27 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 $scope.removeGreySquares()
             };
 
+            this.updateStatus = function () {
+
+            };
+
         },
         template: '<div style="width: 400px"></div>',
         link: function (scope, element, attrs, Ctrl) {
             Ctrl.pieces_hash = scope.pieceHashes;
+
+
+
+            // access this from the upper scope
+            scope.$parent.gameStatus = {
+                log: '',
+                turn: '',
+
+            };
+
+            // same reference
+            scope.localGameStatus = scope.$parent.gameStatus;
+
 
             scope.configs = scope.configs || {};
 
@@ -168,7 +186,6 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                     onChange: Ctrl.onChange
                 }
             }
-
 
             let board = ChessBoard(element, {
                 ...defaultConfig,
