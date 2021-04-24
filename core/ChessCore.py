@@ -46,9 +46,9 @@ class ChessCore(ChessUtil):
     def printBoard(self):
         print(self.board)
 
-    def movePiece(self, move_notation: str):
+    def movePiece(self, move_notation: str, session_key: str):
         self.board.push_san(move_notation)
-        self.setBoardToSession()
+        self.setBoardToSession(session_key)
 
     # TODO turn this validation to a decorator
     def getPossibleMoves(self, alg_notation: str) -> np.ndarray:
@@ -83,4 +83,4 @@ class ChessCore(ChessUtil):
         if session_key in session:
             return ChessCore(session[session_key])
 
-        return ChessCore()
+        raise Exception('Something Wrong with the Board Session')

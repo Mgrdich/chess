@@ -24,7 +24,7 @@ class ConfigGame(View):
             core = ChessCore.getBoard(ConfigGame.session_key)
         else:
             core = ChessCore()
-            core.setBoardToSession()
+            core.setBoardToSession(session_key=ConfigGame.session_key)
 
         piece_hashes = Lib.getPieceHashes()
 

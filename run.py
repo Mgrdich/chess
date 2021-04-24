@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect #, session
 import werkzeug
+# from flask.sessions import SecureCookieSessionInterface
+
 from Util.Route import Routes
 
 from controllers.ConfigGame import ConfigGame
@@ -16,6 +18,11 @@ load_dotenv()  # take environment variables from .env.
 
 app = Flask(__name__)
 
+# Cookie
+
+# where `app` is your Flask Application name.
+# session_cookie = SecureCookieSessionInterface().get_signing_serializer(app)
+
 # Routes
 
 app.add_url_rule(Routes.getRoute(Routes.Index), view_func=IndexView.as_view('helloWorld'))
@@ -24,6 +31,15 @@ app.add_url_rule(Routes.getRoute(Routes.Config_Game), view_func=ConfigGame.as_vi
 app.add_url_rule(Routes.getRoute(Routes.Api_Make_Move), view_func=MakeMoveApi.as_view('makeMoveApi'))
 app.add_url_rule(Routes.getRoute(Routes.Fen), view_func=Fen.as_view('Fen'))
 app.add_url_rule(Routes.getRoute(Routes.Api_Moves, '<alg_move>'), view_func=MovesApi.as_view('movesApi'))
+
+
+# middlewares
+# @app.after_request
+# def cookies(response):
+#     print(session_cookie)
+#     same_cookie = session_cookie.dumps(dict(session))
+#     response.headers.add("Set-Cookie", f"my_cookie={same_cookie}; Secure; HttpOnly; SameSite=None; Path=/;")
+#     return response
 
 
 @app.errorhandler(404)

@@ -62,7 +62,7 @@ class MakeMoveApi(MethodView):
         if not parsed_move_validation['valid']:
             return parsed_move_validation['response']
 
-        core.movePiece(data['move'])
+        core.movePiece(data['move'], session_key=session_key)
 
         core.printBoard()
 

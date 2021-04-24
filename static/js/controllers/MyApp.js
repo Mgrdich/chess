@@ -201,9 +201,9 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
 
             // access this from the upper $scope
             $scope.$parent.gameStatus = {
-                log: '',
+                log: '', // TODO maybe array ??
                 turn: '',
-
+                fen:'' // TODO real time fen
             };
 
             // same reference
