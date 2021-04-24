@@ -47,7 +47,8 @@ myApp.directive('chessBoard', ['$http', function ($http) {
             configs: '=?configs',
             pieceHashes: '=',
             suggestionUrl: '@?',
-            moveUrl: '@?'
+            moveUrl: '@?',
+            id:'@'
         },
         controller: function ($scope) {
             this.suggestions = {};
@@ -155,7 +156,6 @@ myApp.directive('chessBoard', ['$http', function ($http) {
             Ctrl.pieces_hash = scope.pieceHashes;
 
 
-
             // access this from the upper scope
             scope.$parent.gameStatus = {
                 log: '',
@@ -192,6 +192,8 @@ myApp.directive('chessBoard', ['$http', function ($http) {
                 ...scope.configs
             });
 
+
+
             scope.removeGreySquares = function () {
                 element.find('.square-55d63').css('background', '');
             };
@@ -214,3 +216,10 @@ myApp.directive('chessBoard', ['$http', function ($http) {
         }
     }
 }]);
+
+
+myApp.directive('$chessBoard', function () {
+    // hashed by element id and
+    let boards = {};
+
+});

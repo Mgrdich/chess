@@ -5,9 +5,12 @@
 
 <div chess-board
      style="width: 400px"
+     id="chessBoard"
      piece-hashes="piece_hashes"
      configs="{
-            position:boardFen
+            draggable: true,
+            dropOffBoard: 'trash',
+            sparePieces: true
          }"
 ></div>
 <a href="/">back to main page</a>
