@@ -19,10 +19,12 @@ class ConfigGame(View):
 
     @staticmethod
     def get():
-        core = None
 
         if ConfigGame.session_key in session:
             core = ChessCore.getBoard(ConfigGame.session_key)
+        else:
+            core = ChessCore()
+            core.setBoardToSession()
 
         piece_hashes = Lib.getPieceHashes()
 

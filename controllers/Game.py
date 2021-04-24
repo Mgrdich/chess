@@ -12,11 +12,12 @@ class GameView(View):
     session_key = BoardSessions.getBoardSession(Routes.Game_Url)
 
     def dispatch_request(self):
-        if GameView.session_key not in session:
+        if GameView.session_key in session:
+            core = ChessCore.getBoard()
+        else:
             core = ChessCore()
             core.setBoardToSession()
-        else:
-            core = ChessCore.getBoard()
+
 
         piece_hashes = Lib.getPieceHashes()
 
