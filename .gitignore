@@ -242,3 +242,5 @@ pip-selfcheck.json
 
 *.xml
 *.idea
+
+static/js/libs/chessboard-1.0.0.js

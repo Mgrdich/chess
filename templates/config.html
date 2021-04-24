@@ -2,7 +2,7 @@
 <html lang="en" ng-app="myApp">
 {% include 'head.html' %}
 <body ng-controller="ChessCtrl" ng-init="piece_hashes = {{piece_hashes}};boardFen='{{FEN}}'">
-<div style="display: flex">
+<div style="display: flex; margin-bottom: 20px">
     <input type="text" ng-model="form.fen" style="width: 100%">
     <button ng-click="submitFen('{{CONFIG_GAME_ROUTE}}')">submit</button>
 </div>
