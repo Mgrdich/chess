@@ -3,9 +3,14 @@ let myApp = angular.module('myApp', []);
 const whiteSquareGrey = '#a9a9a9'
 const blackSquareGrey = '#696969'
 
-const kingCastle = '0-0';
+// TODO this should be sent from the backend
+whiteKingCastle = ['e1-g1','h1-f1'];
 
-const queenCastle = '0-0-0';
+whiteQueenCastle = ['e1-b1','a1-c1'];
+
+blackKingCastle = ['e8-g8','h8-f8'];
+
+blackQueenCastle = ['e1-b1','a1-c1'];
 
 myApp.controller('ChessCtrl', ['$scope', '$http', '$chessBoard', function ($scope, $http, $chessBoard) {
     $scope.chessBoardConfigs = {};
@@ -56,6 +61,7 @@ myApp.controller('ChessCtrl', ['$scope', '$http', '$chessBoard', function ($scop
     };
 
 }]);
+
 myApp.service('$chessBoard', function () {
     // hashed by element id and
     let boards = {};
@@ -111,6 +117,8 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 if ($scope.pieceHashes[element] !== 'p') {
                     move = $scope.pieceHashes[element].toUpperCase() + move;
                 }
+
+                // TODO here is should be check so to sent king-side or Queen-side castling
                 $http({
                     method: 'POST',
                     url: 'http://127.0.0.1:8080' + $scope.moveUrl,
@@ -132,6 +140,7 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
 
             this.onDragStart = function (source, piece, position, orientation) {
                 // do not pick up pieces if the game is over
+                // TODO maybe with the last ajax move send over -> GameOver -> True
                 console.log(source, piece, position)
             };
 
@@ -169,7 +178,7 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
 
                 $http({
                     method: 'GET',
-                    url: `http://127.0.0.1:8080/${$scope.suggestionUrl}?pos=${square}&&elem=${$scope.pieceHashes[piece]}`
+                    url: `http://127.0.0.1:8080${$scope.suggestionUrl}?pos=${square}&&elem=${$scope.pieceHashes[piece]}`
                 }).then(function (data) {
                     data = data.data;
 

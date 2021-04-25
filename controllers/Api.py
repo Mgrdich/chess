@@ -44,9 +44,17 @@ class MovesApi(MethodView):
             'result': core.getPossibleMovesAlg(pos).tolist()
         }
 
+        core.printBoard()
         if ChessCore.isKing(element):
+            composite_move = element.upper() + pos
+            print(composite_move)
             # TODO check the castling and return that shit
-            print(core.board.has_kingside_castling_rights(color=core.getTurn()))
+            print(core.board.fen())
+            print('Turn', core.getTurn())
+            print('pos', pos)
+            print('c', core.board.has_castling_rights(color=core.getTurn()))
+            print('c1', core.board.has_kingside_castling_rights(color=core.getTurn()))
+            print('c2', core.board.has_queenside_castling_rights(color=core.getTurn()))
 
         return Lib.resJson(res)
 
