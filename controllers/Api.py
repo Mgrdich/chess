@@ -35,6 +35,8 @@ class MovesApi(MethodView):
 
         session_key = BoardSessions.getBoardSession(request.referrer)
 
+        # Board
+
         core = ChessCore.getBoard(session_key)
 
         res = {
@@ -44,7 +46,7 @@ class MovesApi(MethodView):
 
         if ChessCore.isKing(element):
             # TODO check the castling and return that shit
-            pass
+            print(core.board.has_kingside_castling_rights(color=core.getTurn()))
 
         return Lib.resJson(res)
 

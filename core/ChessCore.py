@@ -12,6 +12,18 @@ class ChessCore(ChessUtil):
     BLACK_PIECE_SYMBOLS = PIECE_SYMBOLS  # lower case
     WHITE_PIECE_SYMBOLS = [i.upper() for i in BLACK_PIECE_SYMBOLS]  # upper case
 
+    whiteKingSideCastle = 'Kg1'
+    whiteQueenSideCastle = 'Kf1'
+    blackKingSideCastle = 'Kg8'
+    blackQueenSideCastle = 'Kf8'
+
+    castling = {
+        whiteKingSideCastle: '0-0',
+        whiteQueenSideCastle: '0-0-0',
+        blackKingSideCastle: '0-0',
+        blackQueenSideCastle: '0-0-0'
+    }
+
     DEFAULT_GAME_SESSION = BoardSessions.getBoardSession(Routes.Game_Url)
 
     def __init__(self, fen: str = ''):
@@ -35,6 +47,9 @@ class ChessCore(ChessUtil):
 
     def isStaleMate(self) -> bool:
         return self.board.is_stalemate()
+
+    def getTurn(self):  # TODO convert me to getter
+        return self.board.turn
 
     def setBoardToSession(self, session_key: str = DEFAULT_GAME_SESSION):
         session[session_key] = self.board.fen()
