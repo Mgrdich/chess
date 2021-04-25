@@ -1,17 +1,11 @@
-import chess
+from core.ChessCore import ChessCore
 
-board = chess.Board()
+core = ChessCore('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq')
 
-print(board)
+core.printBoard()
+core.movePieceSan("0-0")
+#
+print('--------')
+core.printBoard()
 
-board.push_san("e4")
-print('-----')
-print(board)
-print('-----')
-
-board.push_san("Nh6")
-print(board)
-
-board.push_san("Nh3")
-print(board)
-
+print(core.board.piece_map())

@@ -7,10 +7,6 @@ from Util.Route import Routes
 from core.ChessUtil import ChessUtil
 
 
-# TODO maybe there should be a start function to init the the chess thingy while the class
-# Just creates the context
-
-
 class ChessCore(ChessUtil):
     PIECE_SYMBOLS = chess.PIECE_SYMBOLS[1:]  # remove None
     BLACK_PIECE_SYMBOLS = PIECE_SYMBOLS  # lower case
@@ -47,8 +43,11 @@ class ChessCore(ChessUtil):
         print(self.board)
 
     def movePiece(self, move_notation: str, session_key: str):
-        self.board.push_san(move_notation)
+        self.movePieceSan(move_notation)
         self.setBoardToSession(session_key)
+
+    def movePieceSan(self, move_notation: str):
+        self.board.push_san(move_notation)
 
     # TODO turn this validation to a decorator
     def getPossibleMoves(self, alg_notation: str) -> np.ndarray:

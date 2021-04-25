@@ -169,7 +169,7 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
 
                 $http({
                     method: 'GET',
-                    url: 'http://127.0.0.1:8080' + $scope.suggestionUrl + '/' + square
+                    url: `http://127.0.0.1:8080/${$scope.suggestionUrl}?pos=${square}&&elem=${$scope.pieceHashes[piece]}`
                 }).then(function (data) {
                     data = data.data;
 
@@ -203,7 +203,7 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
             $scope.$parent.gameStatus = {
                 log: '', // TODO maybe array ??
                 turn: '',
-                fen:'' // TODO real time fen
+                fen: '' // TODO real time fen
             };
 
             // same reference

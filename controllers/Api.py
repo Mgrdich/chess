@@ -4,23 +4,34 @@ from flask.views import MethodView
 from Util.BoardSessions import BoardSessions
 from Util.Lib import Lib
 from Util.ErrorUtil import ErrorUtil
-from controllers.ConfigGame import ConfigGame
-from controllers.Game import GameView
 from core.ChessCore import ChessCore
 
 
 # Possible Move
 class MovesApi(MethodView):
-    """ api/moves/<alg_move> """
+    """ api/moves?pos=e3&elem=k"""
 
     @staticmethod
-    def get(alg_move: str):
+    def get():
         """ Return the entire inventory collection """
+        pos = request.args.get('pos')
 
-        alg_validation = ErrorUtil.isAlgNotation('alg_move', alg_move)
+        element = request.args.get('elem')
 
-        if not alg_validation['valid']:
-            return alg_validation['response']
+        pos_required = ErrorUtil.isRequired('pos', pos)
+
+        if not pos_required['valid']:
+            return pos_required['response']
+
+        element_required = ErrorUtil.isRequired('element', element)
+
+        if not element_required['valid']:
+            return element_required['response']
+
+        pos_validation = ErrorUtil.isAlgNotation('pos', pos)
+
+        if not pos_validation['valid']:
+            return pos_validation['response']
 
         session_key = BoardSessions.getBoardSession(request.referrer)
 
@@ -28,8 +39,12 @@ class MovesApi(MethodView):
 
         res = {
             'status': 1,
-            'result': core.getPossibleMovesAlg(alg_move).tolist()
+            'result': core.getPossibleMovesAlg(pos).tolist()
         }
+
+        if ChessCore.isKing(element):
+            # TODO check the castling and return that shit
+            pass
 
         return Lib.resJson(res)
 
@@ -43,7 +58,7 @@ class MakeMoveApi(MethodView):
         """ Sets chess play in the Core """
         data = request.get_json()
 
-        required_validation = ErrorUtil.isRequired('move', data)
+        required_validation = ErrorUtil.isRequired('move', data['move'])
 
         if not required_validation['valid']:
             return required_validation['response']

@@ -14,3 +14,7 @@ class ChessUtil:
             return False
 
         return True
+
+    @staticmethod
+    def isKing(notation: str) -> bool:
+        return notation.lower() == 'k'

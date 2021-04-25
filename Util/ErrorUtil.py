@@ -34,7 +34,7 @@ class ErrorUtil:
     # maybe add any number of required parameters
     @staticmethod
     def isRequired(name: str, item):
-        if name not in item:
+        if not item:
             obj = ErrorUtil.errorObj(name=name, msg=ERROR_KEYS['is_required'])
             return ErrorUtil.isInvalid(obj)
 
