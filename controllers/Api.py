@@ -45,10 +45,12 @@ class MovesApi(MethodView):
         }
 
         core.printBoard()
+
         composite_move = element.upper() + pos
-        if ChessCore.isKing(element) and composite_move in ChessCore.castlingInitialPosition \
-                and core.board.has_castling_rights(color=core.getTurn()):
-            res['castling'] = ChessCore.castlingInitialPosition[composite_move]
+        castlingMove = ChessCore.castlingInitialPosition[composite_move]
+        
+        if ChessCore.isKing(element) and castlingMove and core.board.has_castling_rights(color=core.getTurn()):
+            res['castling'] = castlingMove
 
         return Lib.resJson(res)
 
