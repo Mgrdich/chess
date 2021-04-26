@@ -17,14 +17,19 @@ class ChessCore(ChessUtil):
     blackKingSideCastle = 'Kg8'
     blackQueenSideCastle = 'Kf8'
 
-    whiteKingInitial = 'e1'
-    blackKingInitial = 'e8'
+    whiteKingInitial = 'Ke1'
+    blackKingInitial = 'Ke8'
 
     castling = {
         whiteKingSideCastle: '0-0',
         whiteQueenSideCastle: '0-0-0',
         blackKingSideCastle: '0-0',
         blackQueenSideCastle: '0-0-0'
+    }
+
+    castlingInitialPosition = {
+        whiteKingInitial: 'g1',
+        blackKingInitial: 'g8'
     }
 
     DEFAULT_GAME_SESSION = BoardSessions.getBoardSession(Routes.Game_Url)
