@@ -1,3 +1,4 @@
+import chess
 from flask import request
 from flask.views import MethodView
 
@@ -49,20 +50,25 @@ class MovesApi(MethodView):
         composite_move = element.upper() + pos
         c = ChessCore.castlingPositions
 
-        if ChessCore.isKing(element) and composite_move in c and core.board.has_castling_rights():
-            side = None
+        if ChessCore.isKing(element) and composite_move in c and core.board.has_castling_rights(color=core.getTurn()):
+            castlingMoves = []
 
             if core.board.has_kingside_castling_rights(color=core.getTurn()):
                 try:
-                    core.board.parse_san('0-0')
+                    kMove = core.board.parse_san('0-0')
+                    castlingMoves.append(chess.square_name(kMove.from_square))  # TODO move to our api with a function
                 except ValueError:
-                    print()
+                    pass
 
             if core.board.has_queenside_castling_rights(color=core.getTurn()):
                 try:
-                    core.board.parse_san('0-0-0')
+                    qMove = core.board.parse_san('0-0-0')
+                    castlingMoves.append(chess.square_name(qMove.from_square))  # TODO move to our api with a function
                 except ValueError:
-                    print()
+                    pass
+
+            if len(castlingMoves) > 0:
+                res['castling'] = castlingMoves
 
         return Lib.resJson(res)
 
