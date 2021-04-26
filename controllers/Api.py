@@ -49,16 +49,20 @@ class MovesApi(MethodView):
         composite_move = element.upper() + pos
         c = ChessCore.castlingPositions
 
-        if ChessCore.isKing(element) and composite_move in c:
+        if ChessCore.isKing(element) and composite_move in c and core.board.has_castling_rights():
             side = None
+
             if core.board.has_kingside_castling_rights(color=core.getTurn()):
-                side = 'kingSide'
+                try:
+                    core.board.parse_san('0-0')
+                except ValueError:
+                    print()
 
-            # if core.board.has_queenside_castling_rights(color=core.getTurn()):
-            #     side = 'queenSide'
-
-            if side:
-                res['castling'] = c[composite_move][side]
+            if core.board.has_queenside_castling_rights(color=core.getTurn()):
+                try:
+                    core.board.parse_san('0-0-0')
+                except ValueError:
+                    print()
 
         return Lib.resJson(res)
 

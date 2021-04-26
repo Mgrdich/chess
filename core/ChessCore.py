@@ -20,11 +20,14 @@ class ChessCore(ChessUtil):
     whiteKingInitial = 'Ke1'
     blackKingInitial = 'Ke8'
 
+    kingSide = '0-0'
+    queenSide = '0-0'
+
     castling = {
-        whiteKingSideCastle: '0-0',
-        whiteQueenSideCastle: '0-0-0',
-        blackKingSideCastle: '0-0',
-        blackQueenSideCastle: '0-0-0'
+        whiteKingSideCastle: kingSide,
+        whiteQueenSideCastle: queenSide,
+        blackKingSideCastle: kingSide,
+        blackQueenSideCastle: queenSide
     }
 
     castlingPositions = {
