@@ -12,34 +12,13 @@ class ChessCore(ChessUtil):
     BLACK_PIECE_SYMBOLS = PIECE_SYMBOLS  # lower case
     WHITE_PIECE_SYMBOLS = [i.upper() for i in BLACK_PIECE_SYMBOLS]  # upper case
 
-    whiteKingSideCastle = 'Kg1'
-    whiteQueenSideCastle = 'Kf1'
-    blackKingSideCastle = 'Kg8'
-    blackQueenSideCastle = 'Kf8'
-
     whiteKingInitial = 'Ke1'
     blackKingInitial = 'Ke8'
 
-    kingSide = '0-0'
-    queenSide = '0-0'
+    CASTLE_MOVE_POSITION = ['Ke1', 'Ke8']
 
-    castling = {
-        whiteKingSideCastle: kingSide,
-        whiteQueenSideCastle: queenSide,
-        blackKingSideCastle: kingSide,
-        blackQueenSideCastle: queenSide
-    }
-
-    castlingPositions = {
-        whiteKingInitial: {
-            'kingSide': 'g1',
-            'queenSide': 'b1'
-        },
-        blackKingInitial: {
-            'kingSide': 'g8',
-            'queenSide': 'b8'
-        }
-    }
+    KING_SIDE_CASTLE = '0-0'
+    QUEEN_SIDE_CASTLE = '0-0-0'
 
     DEFAULT_GAME_SESSION = BoardSessions.getBoardSession(Routes.Game_Url)
 

@@ -142,8 +142,9 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
             };
 
-            this.grayFields = function (square) {
+            this.grayFields = function (square, piece) {
                 let moves = self.suggestions[square];
+                let isKing = $scope.pieceHashes[piece] === 'k';
 
                 // exit if there are no moves available for this square
                 if (moves.length === 0) return
@@ -153,9 +154,11 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
 
                 // highlight the possible squares for this piece
                 for (let i = 0; i < moves.length; i++) {
-                    console.log(moves[i],self.suggestions.castling)
-                    let castling = moves[i] === self.suggestions.castling;
-                    $scope.greySquare(moves[i], castling);
+                    let castlingMove = false;
+                    if (isKing && self.suggestions.castling) {
+                        castlingMove =  self.suggestions.castling.includes(moves[i]);
+                    }
+                    $scope.greySquare(moves[i], castlingMove);
                 }
             };
 
@@ -167,7 +170,7 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 }
 
                 if (self.suggestions[square]) {
-                    self.grayFields(square);
+                    self.grayFields(square, piece);
                     return;
                 }
 
@@ -184,7 +187,7 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                     if (data.castling) {
                         self.suggestions.castling = data.castling;
                     }
-                    self.grayFields(square);
+                    self.grayFields(square, piece);
                 }, function errorCallBack(err) {
                     console.log(err);
                 })
@@ -248,15 +251,15 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 element.find('.square-55d63').css('background', '');
             };
 
-            $scope.greySquare = function (square, castling) {
+            $scope.greySquare = function (square, castlingMove) {
                 let $square = element.find('.square-' + square);
 
                 let background = whiteSquareGrey
                 if ($square.hasClass('black-3c85d')) {
                     background = blackSquareGrey
                 }
-                
-                if (castling) {
+
+                if (castlingMove) {
                     background = castlingColor;
                 }
 
