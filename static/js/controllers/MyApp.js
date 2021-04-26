@@ -2,15 +2,7 @@ let myApp = angular.module('myApp', []);
 
 const whiteSquareGrey = '#a9a9a9'
 const blackSquareGrey = '#696969'
-
-// TODO this should be sent from the backend
-whiteKingCastle = ['e1-g1','h1-f1'];
-
-whiteQueenCastle = ['e1-b1','a1-c1'];
-
-blackKingCastle = ['e8-g8','h8-f8'];
-
-blackQueenCastle = ['e1-b1','a1-c1'];
+const castlingColor = '#dfff0040';
 
 myApp.controller('ChessCtrl', ['$scope', '$http', '$chessBoard', function ($scope, $http, $chessBoard) {
     $scope.chessBoardConfigs = {};
@@ -152,15 +144,18 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
 
             this.grayFields = function (square) {
                 let moves = self.suggestions[square];
+
                 // exit if there are no moves available for this square
                 if (moves.length === 0) return
 
                 // highlight the square they moused over
-                $scope.greySquare(square)
+                $scope.greySquare(square);
 
                 // highlight the possible squares for this piece
                 for (let i = 0; i < moves.length; i++) {
-                    $scope.greySquare(moves[i]);
+                    console.log(moves[i],self.suggestions.castling)
+                    let castling = moves[i] === self.suggestions.castling;
+                    $scope.greySquare(moves[i], castling);
                 }
             };
 
@@ -186,6 +181,9 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                         return
                     }
                     self.suggestions[square] = data.result;
+                    if (data.castling) {
+                        self.suggestions.castling = data.castling;
+                    }
                     self.grayFields(square);
                 }, function errorCallBack(err) {
                     console.log(err);
@@ -250,12 +248,16 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 element.find('.square-55d63').css('background', '');
             };
 
-            $scope.greySquare = function (square) {
+            $scope.greySquare = function (square, castling) {
                 let $square = element.find('.square-' + square);
 
                 let background = whiteSquareGrey
                 if ($square.hasClass('black-3c85d')) {
                     background = blackSquareGrey
+                }
+                
+                if (castling) {
+                    background = castlingColor;
                 }
 
                 $square.css('background', background)
