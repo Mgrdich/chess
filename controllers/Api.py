@@ -52,11 +52,14 @@ class MovesApi(MethodView):
 
         if ChessCore.isKing(element) and composite_move in c and core.board.has_castling_rights(color=core.getTurn()):
             castlingMoves = []
+            kingSideCastling = None
+            queenSideCastling = None
 
             if core.board.has_kingside_castling_rights(color=core.getTurn()):
                 try:
                     kMove = core.board.parse_san(ChessCore.KING_SIDE_CASTLE)
                     castlingMoves.append(chess.square_name(kMove.to_square))  # TODO move to our api with a function
+                    kingSideCastling = True
                 except ValueError:
                     pass
 
@@ -64,11 +67,17 @@ class MovesApi(MethodView):
                 try:
                     qMove = core.board.parse_san(ChessCore.QUEEN_SIDE_CASTLE)
                     castlingMoves.append(chess.square_name(qMove.to_square))  # TODO move to our api with a function
+                    queenSideCastling = True
                 except ValueError:
                     pass
 
             if len(castlingMoves) > 0:
                 res['castling'] = castlingMoves
+                if kingSideCastling:
+                    res['kingSide'] = True
+
+                if queenSideCastling:
+                    res['queenSide'] = True
 
         return Lib.resJson(res)
 
@@ -103,4 +112,8 @@ class MakeMoveApi(MethodView):
             'status': 1,
             'data': move.to_square
         }
+
+        if data['move'] in [ChessCore.KING_SIDE_CASTLE, ChessCore.QUEEN_SIDE_CASTLE]:
+            res['castling'] = True
+
         return Lib.resJson(res)

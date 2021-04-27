@@ -102,7 +102,7 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 // see if the move is legal
                 $scope.removeGreySquares();
 
-                let myMove = $scope.pieceHashes[element].toUpperCase();
+                let myElement = $scope.pieceHashes[element].toUpperCase();
 
                 // illegal move
                 if (!self.suggestions[source] || !self.suggestions[source].includes(target)) {
@@ -110,16 +110,18 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 }
 
                 let move = target;
-                if (myMove === 'K') {
-                    console.log('castling');
-                    console.log(self.suggestions.castling);
-                } else if (myMove !== 'P') {
-                    move = $scope.pieceHashes[element].toUpperCase() + move;
+
+                if (myElement === 'K' && self.suggestions.castling.includes(move)) {
+                    if (self.suggestions.kingSideCastling) {
+                        move = kingSideCastle;
+                    }
+                    if (self.suggestions.kingSideCastling) {
+                        move = queenSideCastle
+                    }
+                } else if (myElement !== 'P') {
+                    move = myElement + move;
                 }
-
-
-                let isCastling = false;
-
+                
                 // TODO here is should be check so to sent king-side or Queen-side castling
                 $http({
                     method: 'POST',
@@ -133,6 +135,9 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                         return 'snapback';
                     }
                     self.suggestions = {}; // reset suggestion
+                    if (data.castling) {
+
+                    }
                     self.updateStatus(data.move);
                 }, function errorCallBack(err) {
                     console.log(err);
