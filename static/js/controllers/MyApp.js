@@ -3,6 +3,8 @@ let myApp = angular.module('myApp', []);
 const whiteSquareGrey = '#a9a9a9'
 const blackSquareGrey = '#696969'
 const castlingColor = '#dfff0040';
+const kingSideCastle = '0-0';
+const queenSideCastle = '0-0-0';
 
 myApp.controller('ChessCtrl', ['$scope', '$http', '$chessBoard', function ($scope, $http, $chessBoard) {
     $scope.chessBoardConfigs = {};
@@ -100,15 +102,23 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 // see if the move is legal
                 $scope.removeGreySquares();
 
+                let myMove = $scope.pieceHashes[element].toUpperCase();
+
                 // illegal move
                 if (!self.suggestions[source] || !self.suggestions[source].includes(target)) {
                     return 'snapback';
                 }
 
                 let move = target;
-                if ($scope.pieceHashes[element] !== 'p') {
+                if (myMove === 'K') {
+                    console.log('castling');
+                    console.log(self.suggestions.castling);
+                } else if (myMove !== 'P') {
                     move = $scope.pieceHashes[element].toUpperCase() + move;
                 }
+
+
+                let isCastling = false;
 
                 // TODO here is should be check so to sent king-side or Queen-side castling
                 $http({
@@ -123,7 +133,7 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                         return 'snapback';
                     }
                     self.suggestions = {}; // reset suggestion
-                    self.updateStatus();
+                    self.updateStatus(data.move);
                 }, function errorCallBack(err) {
                     console.log(err);
                 })
@@ -199,8 +209,8 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 $scope.removeGreySquares()
             };
 
-            this.updateStatus = function () {
-
+            this.updateStatus = function (move) {
+                // TODO append the move in the list that will be worked out
             };
 
         },

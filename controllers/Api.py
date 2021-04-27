@@ -45,7 +45,7 @@ class MovesApi(MethodView):
             'result': core.getPossibleMovesAlg(pos).tolist()
         }
 
-        core.printBoard()
+        # core.printBoard()
 
         composite_move = element.upper() + pos
         c = ChessCore.CASTLE_MOVE_POSITION
@@ -62,7 +62,7 @@ class MovesApi(MethodView):
 
             if core.board.has_queenside_castling_rights(color=core.getTurn()):
                 try:
-                    qMove = core.board.parse_san(ChessCore.KING_SIDE_CASTLE)
+                    qMove = core.board.parse_san(ChessCore.QUEEN_SIDE_CASTLE)
                     castlingMoves.append(chess.square_name(qMove.to_square))  # TODO move to our api with a function
                 except ValueError:
                     pass
@@ -92,7 +92,8 @@ class MakeMoveApi(MethodView):
         core = ChessCore.getBoard(session_key)
 
         try:
-            core.movePiece(data['move'], session_key=session_key)
+            move = core.movePiece(data['move'], session_key=session_key)
+            # print(move.to_square)
         except ValueError:
             return Lib.resInvalidJson('invalid Move')
 
@@ -100,6 +101,6 @@ class MakeMoveApi(MethodView):
 
         res = {
             'status': 1,
-            'data': data
+            'data': move.to_square
         }
         return Lib.resJson(res)
