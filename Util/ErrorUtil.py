@@ -49,7 +49,7 @@ class ErrorUtil:
         return ErrorUtil.isValid()
 
     @staticmethod
-    def isValidMoveNotation(name: str, move_str: str) -> object:
+    def isValidMoveNotation(name: str, move_str: str) -> object:  # wrong
         if len(move_str) != 3 and len(move_str) != 2:
             obj = ErrorUtil.errorObj(name=name, msg=ERROR_KEYS['not_valid_move_not'])
             return ErrorUtil.isInvalid(obj)

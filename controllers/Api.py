@@ -87,21 +87,14 @@ class MakeMoveApi(MethodView):
         if not required_validation['valid']:
             return required_validation['response']
 
-        move_validation = ErrorUtil.isValidMoveNotation('move', data['move'])
-
-        if not move_validation['valid']:
-            return move_validation['response']
-
         session_key = BoardSessions.getBoardSession(request.referrer)
 
         core = ChessCore.getBoard(session_key)
 
-        parsed_move_validation = ErrorUtil.isValidMove(core.board, 'move', data['move'])
-
-        if not parsed_move_validation['valid']:
-            return parsed_move_validation['response']
-
-        core.movePiece(data['move'], session_key=session_key)
+        try:
+            core.movePiece(data['move'], session_key=session_key)
+        except ValueError:
+            return Lib.resInvalidJson('invalid Move')
 
         core.printBoard()
 

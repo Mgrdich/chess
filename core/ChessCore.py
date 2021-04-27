@@ -12,10 +12,7 @@ class ChessCore(ChessUtil):
     BLACK_PIECE_SYMBOLS = PIECE_SYMBOLS  # lower case
     WHITE_PIECE_SYMBOLS = [i.upper() for i in BLACK_PIECE_SYMBOLS]  # upper case
 
-    whiteKingInitial = 'Ke1'
-    blackKingInitial = 'Ke8'
-
-    CASTLE_MOVE_POSITION = ['Ke1', 'Ke8']
+    CASTLE_MOVE_POSITION = ['Ke1', 'Ke8']  # initial king position for pseudo checking :)
 
     KING_SIDE_CASTLE = '0-0'
     QUEEN_SIDE_CASTLE = '0-0-0'
@@ -53,12 +50,13 @@ class ChessCore(ChessUtil):
     def printBoard(self):
         print(self.board)
 
-    def movePiece(self, move_notation: str, session_key: str):
-        self.movePieceSan(move_notation)
+    def movePiece(self, move_notation: str, session_key: str) -> chess.Move:
+        move = self.movePieceSan(move_notation)
         self.setBoardToSession(session_key)
+        return move
 
-    def movePieceSan(self, move_notation: str):
-        self.board.push_san(move_notation)
+    def movePieceSan(self, move_notation: str) -> chess.Move:
+        return self.board.push_san(move_notation)
 
     # TODO turn this validation to a decorator
     def getPossibleMoves(self, alg_notation: str) -> np.ndarray:
