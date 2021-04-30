@@ -14,6 +14,16 @@ class ChessCore(ChessUtil):
 
     CASTLE_MOVE_POSITION = ['Ke1', 'Ke8']  # initial king position for pseudo checking :)
 
+    CASTLING_ROOK_POSITION_WHITE = {  # TODO front api replace later
+        'king': 'h1-f1',
+        'queen': 'a1-c1'
+    }
+
+    CASTLING_ROOK_POSITION_BLACK = {
+        'king': 'h8-f8',
+        'queen': 'a8-c8'
+    }
+
     KING_SIDE_CASTLE = '0-0'
     QUEEN_SIDE_CASTLE = '0-0-0'
 
@@ -41,7 +51,7 @@ class ChessCore(ChessUtil):
     def isStaleMate(self) -> bool:
         return self.board.is_stalemate()
 
-    def getTurn(self):  # TODO convert me to getter
+    def getTurn(self) -> chess.Color:  # TODO convert me to getter
         return self.board.turn
 
     def setBoardToSession(self, session_key: str = DEFAULT_GAME_SESSION):
@@ -57,6 +67,26 @@ class ChessCore(ChessUtil):
 
     def movePieceSan(self, move_notation: str) -> chess.Move:
         return self.board.push_san(move_notation)
+
+    def getCastlingMove(self, move: chess.Move, color: chess.Color) -> object:
+        obj = {}
+        if not self.board.is_castling(move):
+            obj['castling'] = False
+            return obj
+
+        obj['castling'] = True
+
+        if color == chess.WHITE:
+            rookConfig = ChessCore.CASTLING_ROOK_POSITION_WHITE
+        else:
+            rookConfig = ChessCore.CASTLING_ROOK_POSITION_BLACK
+
+        if self.board.is_kingside_castling(move):
+            obj['castlingMove'] = rookConfig['king']
+            return obj
+
+        obj['castlingMove'] = rookConfig['queen']
+        return obj
 
     # TODO turn this validation to a decorator
     def getPossibleMoves(self, alg_notation: str) -> np.ndarray:
