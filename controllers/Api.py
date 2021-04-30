@@ -101,19 +101,22 @@ class MakeMoveApi(MethodView):
         core = ChessCore.getBoard(session_key)
 
         try:
-            move = core.movePiece(data['move'], session_key=session_key)
-            # print(move.to_square)
+            parsed_move = core.board.parse_san(data['move'])
         except ValueError:
             return Lib.resInvalidJson('invalid Move')
 
-        core.printBoard()
+        castling = core.getCastlingMove(parsed_move, color=core.getTurn())
+
+        # removes castling rights
+        move = core.movePiece(data['move'], session_key=session_key)
 
         res = {
             'status': 1,
-            'data': move.to_square
+            'data': chess.square_name(move.to_square)
         }
 
-        if data['move'] in [ChessCore.KING_SIDE_CASTLE, ChessCore.QUEEN_SIDE_CASTLE]:
+        if castling['castling']:
             res['castling'] = True
+            res['castlingMove'] = castling['castlingMove']
 
         return Lib.resJson(res)

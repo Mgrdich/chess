@@ -16,7 +16,7 @@ myApp.controller('ChessCtrl', ['$scope', '$http', '$chessBoard', function ($scop
             return;
         }
 
-        $scope.showChessBoard = false; // TODO check for more optimal way??
+        $scope.boardFen = '';
         $http({
             method: 'POST',
             url: url,
@@ -71,6 +71,7 @@ myApp.service('$chessBoard', function () {
         if (angular.isUndefined(id)) {
             return;
         }
+        boards[id].destroy();
         delete boards[id];
     }
 
@@ -112,16 +113,16 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 let move = target;
 
                 if (myElement === 'K' && self.suggestions.castling.includes(move)) {
-                    if (self.suggestions.kingSideCastling) {
+                    if (1 || self.suggestions.kingSideCastling) {
                         move = kingSideCastle;
                     }
-                    if (self.suggestions.kingSideCastling) {
+                    if (self.suggestions.queenSideCastle) {
                         move = queenSideCastle
                     }
                 } else if (myElement !== 'P') {
                     move = myElement + move;
                 }
-                
+
                 // TODO here is should be check so to sent king-side or Queen-side castling
                 $http({
                     method: 'POST',
@@ -136,7 +137,7 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                     }
                     self.suggestions = {}; // reset suggestion
                     if (data.castling) {
-
+                        $scope.board.move(data.castlingMove);
                     }
                     self.updateStatus(data.move);
                 }, function errorCallBack(err) {
@@ -171,7 +172,7 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 for (let i = 0; i < moves.length; i++) {
                     let castlingMove = false;
                     if (isKing && self.suggestions.castling) {
-                        castlingMove =  self.suggestions.castling.includes(moves[i]);
+                        castlingMove = self.suggestions.castling.includes(moves[i]);
                     }
                     $scope.greySquare(moves[i], castlingMove);
                 }
@@ -255,12 +256,12 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
                 }
             }
 
-            let board = ChessBoard(element, {
+            $scope.board = ChessBoard(element, {
                 ...defaultConfig,
                 ...$scope.configs
             });
 
-            $chessBoard.$setChessBoard($scope.chessId, board)
+            $chessBoard.$setChessBoard($scope.chessId, $scope.board)
 
             $scope.removeGreySquares = function () {
                 element.find('.square-55d63').css('background', '');
@@ -282,8 +283,7 @@ myApp.directive('chessBoard', ['$http', '$chessBoard', function ($http, $chessBo
             }
 
             $scope.$on('$destroy', function () {
-                // TODO unbind events
-                $chessBoard.$deleteChessBoard($scope.id);
+                $chessBoard.$deleteChessBoard($scope.chessId);
             });
         }
     }
