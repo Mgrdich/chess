@@ -16,3 +16,5 @@ print(type(move))
 #
 print('--------')
 core.printBoard()
+
+print(chess.PIECE_SYMBOLS[chess.PAWN])

@@ -17,4 +17,8 @@ class ChessUtil:
 
     @staticmethod
     def isKing(notation: str) -> bool:
-        return notation.lower() == 'k'
+        return notation.lower() == chess.PIECE_SYMBOLS[chess.KING]
+
+    @staticmethod
+    def isPawn(notation: str) -> bool:
+        return notation.lower() == chess.PIECE_SYMBOLS[chess.PAWN]
