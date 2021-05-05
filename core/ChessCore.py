@@ -1,6 +1,7 @@
 import numpy as np
 from flask import session
 import chess
+from typing import List
 
 from Util.BoardSessions import BoardSessions
 from Util.Route import Routes
@@ -97,7 +98,7 @@ class ChessCore(ChessUtil):
             list(self.board.generate_legal_moves(from_mask=ChessCore.getBitSquare(alg_notation)))
         )
 
-    def getPossibleMovesAlg(self, alg_notation: str) -> np.ndarray:
+    def getPossibleMovesAlg(self, alg_notation: str) -> object:
         if not ChessUtil.isAlgebraicNotation(alg_notation):
             raise Exception('Not valid Algebraic notation')
 
@@ -106,7 +107,10 @@ class ChessCore(ChessUtil):
         # TODO fix me with np.fromiter or something to fix this generator issue
         # i think the issue is something with
         # ValueError: Must specify length when using variable-size data-type.
-        return np.array(list(map(lambda move: chess.square_name(move.to_square), moves)))
+        return {
+            'result': np.array(list(map(lambda move: chess.square_name(move.to_square), moves))),
+            'moves':moves
+        }
 
     @staticmethod
     def getBitSquare(alg_notation: str):

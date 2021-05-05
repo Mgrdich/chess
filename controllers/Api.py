@@ -40,16 +40,20 @@ class MovesApi(MethodView):
 
         core = ChessCore.getBoard(session_key)
 
+        possible_moves = core.getPossibleMovesAlg(pos)
+        possible_moves_data = possible_moves['moves']
+
         res = {
             'status': 1,
-            'result': core.getPossibleMovesAlg(pos).tolist()
+            'result': possible_moves['result'].tolist()
         }
 
-        # core.printBoard()
+        print(core.board.fen())
 
         composite_move = element.upper() + pos
         c = ChessCore.CASTLE_MOVE_POSITION
 
+        # king for castling
         if ChessCore.isKing(element) and composite_move in c and core.board.has_castling_rights(color=core.getTurn()):
             castlingMoves = []
             kMove = None
@@ -78,6 +82,10 @@ class MovesApi(MethodView):
 
                 if qMove:
                     res['queenSide'] = chess.square_name(qMove.to_square)
+
+        # pawn of en passant
+        if ChessCore.isPawn(element) and core.board.has_legal_en_passant():
+            print(possible_moves)
 
         return Lib.resJson(res)
 
