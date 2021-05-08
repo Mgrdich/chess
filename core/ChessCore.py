@@ -1,7 +1,6 @@
 import numpy as np
 from flask import session
 import chess
-from typing import List
 
 from Util.BoardSessions import BoardSessions
 from Util.Route import Routes
