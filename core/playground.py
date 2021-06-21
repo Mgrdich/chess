@@ -24,3 +24,6 @@ core1 = ChessCore('rnbqkbnr/pppppp2/8/7p/6PP/6P1/PPPPP3/RNBQKBNR b KQkq - 0 4') 
 core1.printBoard()
 print(core1.board.has_legal_en_passant())
 # is_en_passant
+
+
+core1.getPossibleMoves('esh')
