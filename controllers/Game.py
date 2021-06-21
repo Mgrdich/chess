@@ -18,7 +18,6 @@ class GameView(View):
             core = ChessCore()
             core.setBoardToSession()
 
-
         piece_hashes = Lib.getPieceHashes()
 
         SUGGESTION_URL = Routes.getRoute(Routes.Api_Moves)
