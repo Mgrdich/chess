@@ -89,13 +89,13 @@ class ChessCore(ChessUtil):
         obj['castlingMove'] = rookConfig['queen']
         return obj
 
-    @Dec_isAlgebraicNotation
+    @Dec_isAlgebraicNotation(is_method=True)
     def getPossibleMoves(self, alg_notation: str) -> np.ndarray:
         return np.array(
             list(self.board.generate_legal_moves(from_mask=ChessCore.getBitSquare(alg_notation)))
         )
 
-    @Dec_isAlgebraicNotation
+    @Dec_isAlgebraicNotation(is_method=True)
     def getPossibleMovesAlg(self, alg_notation: str) -> object:
         moves = self.getPossibleMoves(alg_notation)
 
@@ -108,10 +108,8 @@ class ChessCore(ChessUtil):
         }
 
     @staticmethod
+    @Dec_isAlgebraicNotation(is_method=False)
     def getBitSquare(alg_notation: str):
-        if not ChessUtil.isAlgebraicNotation(alg_notation):
-            raise Exception('Not valid Algebraic notation')
-
         return chess.BB_SQUARES[chess.parse_square(alg_notation)]
 
     # TODO check whether is okay to be here or in an individual function

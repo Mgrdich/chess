@@ -26,4 +26,6 @@ print(core1.board.has_legal_en_passant())
 # is_en_passant
 
 
-core1.getPossibleMoves('esh')
+core1.getPossibleMoves('a2')
+
+ChessCore.getBitSquare('ws')
