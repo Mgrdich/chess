@@ -1,6 +1,7 @@
 from core.ChessUtil import ChessUtil
 
 
+# TODO implement the meta thingy
 def Dec_isAlgebraicNotation(is_method: bool):
     def decorator(function):
         def wrapper(*args):
